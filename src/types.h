@@ -195,6 +195,14 @@ namespace librealsense
     void reset_logger();
     void enable_rolling_log_file( unsigned max_size );
 
+    ///////////////////////
+    // AUS mechanism //
+    ///////////////////////
+
+    void init_aus();
+    void print_aus();
+    void increase_counter_aus(RS2_AUS_FIELD field);
+
     // Enhancement for debug mode that incurs performance penalty with STL
     // std::clamp to be introduced with c++17
     template< typename T>

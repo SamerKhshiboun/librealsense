@@ -51,6 +51,28 @@ namespace rs2
         error::handle( e );
     }
     
+    inline void init_aus()
+    {
+        rs2_error* e = nullptr;
+        rs2_init_aus(&e);
+        error::handle(e);
+    }
+
+    inline void print_aus()
+    {
+        rs2_error* e = nullptr;
+        rs2_print_aus(&e);
+        error::handle(e);
+    }
+
+    inline void increase_counter_aus(RS2_AUS_FIELD field)
+    {
+        rs2_error* e = nullptr;
+        rs2_increase_counter_aus(field, &e);
+        error::handle(e);
+    }
+
+
     /*
         Interface to the log message data we expose.
     */

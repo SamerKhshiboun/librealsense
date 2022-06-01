@@ -35,6 +35,15 @@ extern "C" {
 #define VAR_ARG_STRING(arg) STRINGIFY(arg)
 #endif
 
+typedef enum
+{
+	RS2_AUS_CMD,
+	RS2_AUS_LIBREALSENSE_VERSION,
+	RS2_AUS_CONNECTED_CAMERAS,
+	RS2_AUS_USED_CAMERAS,
+	RS2_AUS_USED_FILTERS
+} RS2_AUS_FIELD;
+
 /* Versioning rules            : For each release at least one of [MJR/MNR/PTCH] triple is promoted                                             */
 /*                             : Versions that differ by RS2_API_PATCH_VERSION only are interface-compatible, i.e. no user-code changes required */
 /*                             : Versions that differ by MAJOR/MINOR VERSION component can introduce API changes                                */
@@ -93,6 +102,10 @@ void rs2_reset_logger( rs2_error ** error);
 */
 void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
 
+//AUS
+void rs2_init_aus(rs2_error** error);
+void rs2_print_aus(rs2_error** error);
+void rs2_increase_counter_aus(RS2_AUS_FIELD field, rs2_error** error);
 
 unsigned rs2_get_log_message_line_number( rs2_log_message const * msg, rs2_error** error );
 const char * rs2_get_log_message_filename( rs2_log_message const * msg, rs2_error** error );

@@ -5,6 +5,7 @@
 
 #include "api.h"
 #include "log.h"
+#include "aus.h"
 #include "context.h"
 #include "device.h"
 #include "algo.h"
@@ -1333,6 +1334,24 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error ) BEGIN_
     librealsense::enable_rolling_log_file( max_size );
 }
 HANDLE_EXCEPTIONS_AND_RETURN(, max_size)
+
+void rs2_init_aus(rs2_error** error) BEGIN_API_CALL
+{
+    librealsense::init_aus();
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+
+void rs2_print_aus(rs2_error** error) BEGIN_API_CALL
+{
+    librealsense::print_aus();
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+
+void rs2_increase_counter_aus(RS2_AUS_FIELD field, rs2_error** error) BEGIN_API_CALL
+{
+    librealsense::increase_counter_aus(field);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
 // librealsense wrapper around a C function
 class on_log_callback : public rs2_log_callback
@@ -3932,3 +3951,5 @@ float rs2_calculate_target_z(rs2_device* device, rs2_frame_queue* queue1, rs2_fr
     }
 }
 HANDLE_EXCEPTIONS_AND_RETURN(-1.f, device, queue1, queue2, queue3, target_width, target_height)
+
+

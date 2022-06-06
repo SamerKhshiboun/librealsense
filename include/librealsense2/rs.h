@@ -35,14 +35,12 @@ extern "C" {
 #define VAR_ARG_STRING(arg) STRINGIFY(arg)
 #endif
 
-typedef enum
+union RS2_AUS_VALUE
 {
-	RS2_AUS_CMD,
-	RS2_AUS_LIBREALSENSE_VERSION,
-	RS2_AUS_CONNECTED_CAMERAS,
-	RS2_AUS_USED_CAMERAS,
-	RS2_AUS_USED_FILTERS
-} RS2_AUS_FIELD;
+	int counter;
+	std::time_t time;
+	std::string str;
+} 
 
 /* Versioning rules            : For each release at least one of [MJR/MNR/PTCH] triple is promoted                                             */
 /*                             : Versions that differ by RS2_API_PATCH_VERSION only are interface-compatible, i.e. no user-code changes required */

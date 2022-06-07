@@ -157,6 +157,7 @@ EXPORTS
     rs2_init_aus
     rs2_print_aus
     rs2_increase_counter_aus
+    rs2_get_counter_aus
 
     rs2_get_log_message_line_number
     rs2_get_log_message_filename

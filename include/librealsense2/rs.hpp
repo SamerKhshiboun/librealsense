@@ -65,11 +65,19 @@ namespace rs2
         error::handle(e);
     }
 
-    inline void increase_counter_aus(RS2_AUS_FIELD field)
+    inline void increase_counter_aus(std::string counter)
     {
         rs2_error* e = nullptr;
-        rs2_increase_counter_aus(field, &e);
+        rs2_increase_counter_aus(counter.c_str(), &e);
         error::handle(e);
+    }
+
+    inline int get_counter_aus(std::string counter)
+    {
+        rs2_error* e = nullptr;
+        int result = rs2_get_counter_aus(counter.c_str(), &e);
+        error::handle(e);
+        return result;
     }
 
 

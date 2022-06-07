@@ -8,58 +8,70 @@
 namespace librealsense
 {
     
-#if BUILD_AUS
-    struct aus_data
+
+    union RS2_AUS_VALUE
     {
-        std::string cmd;
-        std::string librealsense_version;
-        int start_time;
-        int end_time;
-        int connected_cameras_count;
-        int used_cameras_count;
-        int colorizer_filter_count;
-        int align_depth_filter_count;
-        int pointcloud_filter_count;
+        constexpr RS2_AUS_VALUE() : counter(0) {}
+        ~RS2_AUS_VALUE() {}
+        int counter;
+        std::time_t time;
+        std::string str;
+    };
 
-        aus_data() : cmd("cmd"), librealsense_version("2.5.0"), start_time(0), end_time(0), connected_cameras_count(0),
-            used_cameras_count(0), colorizer_filter_count(0), align_depth_filter_count(0), pointcloud_filter_count(0)
-        {
-        }
-
+#if BUILD_AUS
+    class aus_data
+    {
+    public:
         void print_aus_data() const {
             std::cout << "aus_data print function" << std::endl;
         }
 
-        void increase_counter(RS2_AUS_FIELD field) {
-            switch (field) {
-            case RS2_AUS_CONNECTED_CAMERAS:
-                connected_cameras_count++;
-                break;
-            case RS2_AUS_USED_CAMERAS:
-                used_cameras_count++;
-                break;
-            default:
-                break;
+        void increase_counter(std::string key)
+        {
+            if (mp.find(key) != mp.end())
+            {
+                mp[key].counter++;
+            }
+            else {
+                mp[key].counter = 1;
             }
         }
-    };
-#else
-    struct aus_data
-    {
-        aus_data()
+
+        int get_counter(std::string key)
         {
-            std::cout << "aus_data() not working - should build with cmake flag" << std::endl;
+            if (mp.find(key) != mp.end())
+            {
+                return 0;
+            }
+            return mp[key].counter;
         }
+
+
+    private:
+        std::unordered_map<std::string, RS2_AUS_VALUE> mp;
+    };// class aus_Data
+
+#else
+    class aus_data
+    {
+
+    public:
         void print_aus_data() const 
         {
             std::cout << "print_aus_data() not working - should build with cmake flag" << std::endl;
         }
 
-        void increase_counter(RS2_AUS_FIELD field) 
+        void increase_counter(RS2_AUS_FIELD field)
         {
             std::cout << "increase_counter(RS2_AUS_FIELD field) not working - should build with cmake flag" << std::endl;
         }
 
-    };
+        int get_counter(std::string key)
+        {
+            std::cout << "get_counter(std::string key) not working - should build with cmake flag" << std::endl;
+            return 0;
+        }
+    }; //class aus_data
 #endif
+ 
 }

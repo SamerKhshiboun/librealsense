@@ -35,12 +35,6 @@ extern "C" {
 #define VAR_ARG_STRING(arg) STRINGIFY(arg)
 #endif
 
-union RS2_AUS_VALUE
-{
-	int counter;
-	std::time_t time;
-	std::string str;
-} 
 
 /* Versioning rules            : For each release at least one of [MJR/MNR/PTCH] triple is promoted                                             */
 /*                             : Versions that differ by RS2_API_PATCH_VERSION only are interface-compatible, i.e. no user-code changes required */
@@ -103,7 +97,8 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
 //AUS
 void rs2_init_aus(rs2_error** error);
 void rs2_print_aus(rs2_error** error);
-void rs2_increase_counter_aus(RS2_AUS_FIELD field, rs2_error** error);
+void rs2_increase_counter_aus(const char* counter, rs2_error** error);
+int rs2_get_counter_aus(const char* counter, rs2_error** error);
 
 unsigned rs2_get_log_message_line_number( rs2_log_message const * msg, rs2_error** error );
 const char * rs2_get_log_message_filename( rs2_log_message const * msg, rs2_error** error );

@@ -1347,11 +1347,17 @@ void rs2_print_aus(rs2_error** error) BEGIN_API_CALL
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
-void rs2_increase_counter_aus(RS2_AUS_FIELD field, rs2_error** error) BEGIN_API_CALL
+void rs2_increase_counter_aus(std::string counter, rs2_error** error) BEGIN_API_CALL
 {
-    librealsense::increase_counter_aus(field);
+    librealsense::increase_counter_aus(counter);
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+
+int rs2_get_counter_aus(std::string counter, rs2_error** error) BEGIN_API_CALL
+{
+    return librealsense::get_counter_aus(counter);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
 
 // librealsense wrapper around a C function
 class on_log_callback : public rs2_log_callback

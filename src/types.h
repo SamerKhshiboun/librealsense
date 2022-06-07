@@ -201,7 +201,8 @@ namespace librealsense
 
     void init_aus();
     void print_aus();
-    void increase_counter_aus(RS2_AUS_FIELD field);
+    void increase_counter_aus(std::string counter);
+    int get_counter_aus(std::string counter);
 
     // Enhancement for debug mode that incurs performance penalty with STL
     // std::clamp to be introduced with c++17

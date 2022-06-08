@@ -76,4 +76,13 @@ PYBIND11_MODULE(NAME, m) {
     // A call to rs.log() will cause a callback to get called! We should already own the GIL, but
     // release it just in case to let others do their thing...
     m.def("log", &rs2::log, "severity"_a, "message"_a, py::call_guard<py::gil_scoped_release>());
+
+
+    //AUS API
+    m.def("aus_init", &rs2::aus_init);
+    m.def("aus_declare_counter", &rs2::aus_declare_counter, "counter"_a);
+    m.def("aus_increase_counter", &rs2::aus_increase_counter, "counter"_a);
+    m.def("aus_get_counter", &rs2::aus_get_counter, "counter"_a);
+    m.def("aus_print", &rs2::aus_print);
+
 }

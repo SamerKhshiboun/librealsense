@@ -285,10 +285,6 @@ int main(int argc, const char** argv) try
     rs2::log_to_console(RS2_LOG_SEVERITY_WARN);
 #endif
 
-#ifdef BUILD_AUS
-    rs2::init_aus();
-#endif
-
     std::shared_ptr<device_models_list> device_models = std::make_shared<device_models_list>();
 
     context ctx;
@@ -735,10 +731,6 @@ int main(int argc, const char** argv) try
             if (sub->streaming)
                 sub->stop(viewer_model.not_model);
         }
-
-#ifdef BUILD_AUS
-    rs2::print_aus();
-#endif
 
     return EXIT_SUCCESS;
 }

@@ -51,31 +51,38 @@ namespace rs2
         error::handle( e );
     }
     
-    inline void init_aus()
+    inline void aus_init()
     {
         rs2_error* e = nullptr;
-        rs2_init_aus(&e);
+        rs2_aus_init(&e);
         error::handle(e);
     }
 
-    inline void print_aus()
+    inline void aus_print()
     {
         rs2_error* e = nullptr;
-        rs2_print_aus(&e);
+        rs2_aus_print(&e);
         error::handle(e);
     }
 
-    inline void increase_counter_aus(std::string counter)
+    inline void aus_declare_counter(const char* counter)
     {
         rs2_error* e = nullptr;
-        rs2_increase_counter_aus(counter.c_str(), &e);
+        rs2_aus_declare_counter(counter, &e);
         error::handle(e);
     }
 
-    inline int get_counter_aus(std::string counter)
+    inline void aus_increase_counter(const char* counter)
     {
         rs2_error* e = nullptr;
-        int result = rs2_get_counter_aus(counter.c_str(), &e);
+        rs2_aus_increase_counter(counter, &e);
+        error::handle(e);
+    }
+
+    inline int aus_get_counter(const char* counter)
+    {
+        rs2_error* e = nullptr;
+        int result = rs2_aus_get_counter(counter, &e);
         error::handle(e);
         return result;
     }

@@ -95,10 +95,11 @@ void rs2_reset_logger( rs2_error ** error);
 void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
 
 //AUS
-void rs2_init_aus(rs2_error** error);
-void rs2_print_aus(rs2_error** error);
-void rs2_increase_counter_aus(const char* counter, rs2_error** error);
-int rs2_get_counter_aus(const char* counter, rs2_error** error);
+void rs2_aus_init(rs2_error** error);
+void rs2_aus_print(rs2_error** error);
+void rs2_aus_declare_counter(const char* counter, rs2_error** error);
+void rs2_aus_increase_counter(const char * counter, rs2_error** error);
+int rs2_aus_get_counter(const char * counter, rs2_error** error);
 
 unsigned rs2_get_log_message_line_number( rs2_log_message const * msg, rs2_error** error );
 const char * rs2_get_log_message_filename( rs2_log_message const * msg, rs2_error** error );

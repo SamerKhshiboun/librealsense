@@ -13,52 +13,51 @@ namespace librealsense
     static aus_data aus_data_obj;
 }
 
-
-void librealsense::init_aus()
+void librealsense::aus_init()
 {
-    std::cout << "librealsense::init_aus" << std::endl;
-    /*aus_data_obj.cmd = "full_path_to_cmd";
-    aus_data_obj.librealsense_version = "2.5.0";*/
+    std::cout << "librealsense::aus_init" << std::endl;
 }
 
-void librealsense::print_aus()
+void librealsense::aus_print()
 {
-    std::cout << "librealsense::print_aus" << std::endl;
-    aus_data_obj.print_aus_data();
+    aus_data_obj.print_data();
 }
 
-void librealsense::increase_counter_aus(std::string counter)
+void librealsense::aus_declare_counter(std::string counter)
 {
-    std::cout << "librealsense::increase_counter_aus" << std::endl;
+    aus_data_obj.declare_counter(counter);
+}
+
+void librealsense::aus_increase_counter(std::string counter)
+{
     aus_data_obj.increase_counter(counter);
 }
 
-int librealsense::get_counter_aus(std::string counter)
+int librealsense::aus_get_counter(std::string counter)
 {
-    std::cout << "librealsense::get_counter_aus" << std::endl;
     return aus_data_obj.get_counter(counter);
 }
 
 #else // BUILD_AUS
 
-void librealsense::init_aus()
+void librealsense::aus_init()
 {
-    throw std::runtime_error("init_aus is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_init is not supported without BUILD_AUS");
 }
 
-void librealsense::print_aus()
+void librealsense::aus_print()
 {
-    throw std::runtime_error("print_aus is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_print is not supported without BUILD_AUS");
 }
 
-void librealsense::increase_counter_aus(std::string counter)
+void librealsense::aus_increase_counter(std::string counter)
 {
-    throw std::runtime_error("increase_counter_aus is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_increase_counter is not supported without BUILD_AUS");
 }
 
-int librealsense::get_counter_aus(std::string counter)
+int librealsense::aus_get_counter(std::string counter)
 {
-    throw std::runtime_error("get_counter_aus is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_get_counter is not supported without BUILD_AUS");
 }
 
 #endif // BUILD_AUS

@@ -36,6 +36,7 @@
 #include <utility>                          // For std::forward
 #include <limits>
 #include <iomanip>
+#include <variant>
 
 typedef unsigned char byte;
 
@@ -199,10 +200,11 @@ namespace librealsense
     // AUS mechanism //
     ///////////////////////
 
-    void init_aus();
-    void print_aus();
-    void increase_counter_aus(std::string counter);
-    int get_counter_aus(std::string counter);
+    void aus_init();
+    void aus_print();
+    void aus_declare_counter(std::string counter);
+    void aus_increase_counter(std::string counter);
+    int aus_get_counter(std::string counter);
 
     // Enhancement for debug mode that incurs performance penalty with STL
     // std::clamp to be introduced with c++17

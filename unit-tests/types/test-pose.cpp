@@ -2,6 +2,8 @@
 // Copyright(c) 2020 Intel Corporation. All Rights Reserved.
 
 //#test:device each(D400*) !D457
+//#test:device each(L500*)
+//#test:device each(SR300*)
 
 #include <easylogging++.h>
 

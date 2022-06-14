@@ -385,14 +385,15 @@ def by_configuration( config, exceptions = None ):
     raised!
     """
     exceptions = exceptions or set()
-    if re.fullmatch( r'each\(.+\)', config[0], re.IGNORECASE ):
-        if len( config ) > 0:
-            spec = config[0][5:-1]
+    if len( config ) > 0 and re.fullmatch( r'each\(.+\)', config[0], re.IGNORECASE ):
+        spec = config[0][5:-1]
+        ignored_products = []
+        if len( config ) > 1:
             ignored_products = config[1:]
             ignored_products = [dev_name[1:] for dev_name in ignored_products]
-            for sn in _get_sns_from_spec( spec, ignored_products):
-                if sn not in exceptions:
-                    yield { sn }
+        for sn in _get_sns_from_spec( spec, ignored_products):
+            if sn not in exceptions:
+                yield { sn }
     else:
         sns = set()
         for spec in config:

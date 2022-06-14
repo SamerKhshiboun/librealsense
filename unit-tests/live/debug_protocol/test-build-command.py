@@ -82,6 +82,8 @@ try:
     expected_status = convert_bytes_string_to_decimal_list(gvd_opcode_as_string)
 
     test.check_equal_lists(status, expected_status)
+    # compare only the first 272 bytes since MIPI devices can return bigger buffer with 
+    # irrelevant data after the first 272 bytes
     test.check_equal_lists(new_scenario_result[:272], old_scenario_result[:272])
 except:
     test.unexpected_exception()

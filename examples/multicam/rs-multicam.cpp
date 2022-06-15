@@ -11,7 +11,7 @@ int main(int argc, char * argv[]) try
 {
     // Create a simple OpenGL window for rendering:
     window app(1280, 960, "CPP Multi-Camera Example");
-
+    rs2::aus_init();
     rs2::context                          ctx;        // Create librealsense context for managing devices
 
     std::map<std::string, rs2::colorizer> colorizers; // Declare map from device serial number to colorizer (utility class to convert depth data RGB colorspace)
@@ -65,7 +65,7 @@ int main(int argc, char * argv[]) try
         // Present all the collected frames with openGl mosaic
         app.show(render_frames);
     }
-
+    
     return EXIT_SUCCESS;
 }
 catch (const rs2::error & e)

@@ -14,6 +14,7 @@ from rspy import devices, log, test, file, repo
 
 test.start("TEST: D400* Connected - no usage of device or filters")
 try:
+    rs.aus_init()
     connected_devices = rs.aus_get_counter("RS2_AUS_CONNECTED_DEVICES")
     test.check_equal(connected_devices, 1)
 

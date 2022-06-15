@@ -96,7 +96,7 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
 
 //AUS
 void rs2_aus_init(rs2_error** error);
-void rs2_aus_print(rs2_error** error);
+void rs2_aus_print_stats(rs2_error** error);
 void rs2_aus_declare_counter(const char* counter, rs2_error** error);
 void rs2_aus_increase_counter(const char * counter, rs2_error** error);
 int rs2_aus_get_counter(const char * counter, rs2_error** error);

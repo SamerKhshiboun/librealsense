@@ -83,6 +83,6 @@ PYBIND11_MODULE(NAME, m) {
     m.def("aus_declare_counter", &rs2::aus_declare_counter, "counter"_a);
     m.def("aus_increase_counter", &rs2::aus_increase_counter, "counter"_a);
     m.def("aus_get_counter", &rs2::aus_get_counter, "counter"_a);
-    m.def("aus_print", &rs2::aus_print);
+    m.def("aus_print_stats", &rs2::aus_print_stats);
 
 }

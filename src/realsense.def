@@ -156,7 +156,7 @@ EXPORTS
     rs2_enable_rolling_log_file
 
     rs2_aus_init
-    rs2_aus_print
+    rs2_aus_print_stats
     rs2_aus_declare_counter
     rs2_aus_increase_counter
     rs2_aus_get_counter

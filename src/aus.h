@@ -7,42 +7,38 @@
 
 namespace librealsense
 {
-    struct RS2_UNION_AUS_VALUE {
-        enum { t_invalid, t_int, t_time, t_string} type_id;
+    typedef struct RS2_AUS_VALUE_STRUCT {
+
+        enum { t_int, t_time, t_string} type_id;
         union
         {
             int _counter;
             std::time_t _time;
             std::string _str;
         };
-        RS2_UNION_AUS_VALUE(int counter = 0) : type_id{ t_int }, _counter{ counter } {}
-        RS2_UNION_AUS_VALUE(std::string str) : type_id{t_string}, _str{str} {}
-        RS2_UNION_AUS_VALUE(std::time_t time) : type_id{ t_time }, _time{ time } {}
 
-        ~RS2_UNION_AUS_VALUE()
+        RS2_AUS_VALUE_STRUCT(int counter = 0) : type_id{ t_int }, _counter{ counter } {}
+        RS2_AUS_VALUE_STRUCT(std::string str) : type_id{t_string}, _str{str} {}
+        RS2_AUS_VALUE_STRUCT(std::time_t time) : type_id{ t_time }, _time{ time } {}
+        ~RS2_AUS_VALUE_STRUCT()
         {
             switch (type_id)
             {
             case t_int:
             case t_time:
-                // trivially destructible, no need to do anything
                 break;
             case t_string:
                 _str.~basic_string();
-                break;
-            case t_invalid:
-                // do nothing
                 break;
             default:
                 throw std::runtime_error("unknown type");
             }
         }
-        RS2_UNION_AUS_VALUE(const RS2_UNION_AUS_VALUE& other)
+
+        RS2_AUS_VALUE_STRUCT(const RS2_AUS_VALUE_STRUCT& other)
         {
             type_id = other.type_id;
             switch (type_id) {
-            case t_invalid:
-                break;
             case t_string:
                 new (&_str) std::string();
                 _str = other._str;
@@ -55,15 +51,14 @@ namespace librealsense
                 break;
             }
         }
-        RS2_UNION_AUS_VALUE& operator=(RS2_UNION_AUS_VALUE& other) {
+
+        RS2_AUS_VALUE_STRUCT& operator=(RS2_AUS_VALUE_STRUCT& other) {
             if (this == &other)
                 return *this;
-            return RS2_UNION_AUS_VALUE(other);
+            return RS2_AUS_VALUE_STRUCT(other);
         }
-    };
 
-    typedef struct RS2_UNION_AUS_VALUE RS2_AUS_VALUE;
-
+    } RS2_AUS_VALUE ;
 
 
 #ifdef BUILD_AUS
@@ -74,19 +69,24 @@ namespace librealsense
     public:
         aus_data()
         {
-            _mp[version] = RS2_AUS_VALUE("2.5.0");
-            _mp[start_time_str] = RS2_AUS_VALUE(std::chrono::system_clock::to_time_t(
-                std::chrono::system_clock::now()));
-
+            _start_time = std::chrono::system_clock::to_time_t(
+                std::chrono::system_clock::now());
+            _mp[start_time_str] = RS2_AUS_VALUE(_start_time);
+            _mp[version_str] = RS2_AUS_VALUE(_librealsense_version);
         }
 
-        void print_data() const {
-            std::time_t start_time = _mp.at(start_time_str)._time;
-            std::time_t end_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            std::time_t total_run_time = start_time - end_time;
-            std::cout << " start time " << start_time << std::endl;
-            std::cout << " end time " << end_time << std::endl;
-            std::cout << " run time " << total_run_time << std::endl;
+        void print_stats()
+        {
+            int total_counters = _mp.size() - 2;
+            std::time_t run_time = _get_run_time();
+            std::cout << "total run time: "  << run_time << std::endl;
+            std::cout << "total counters: " << total_counters << std::endl;
+            std::cout << "librealsense version: " << _librealsense_version << std::endl;
+            for (auto& key  : _mp) {
+                auto it = _mp.find(key);
+                if (it != _mp.end())
+                    return it->second;
+            }
         }
 
         void declare_counter(std::string key)
@@ -110,7 +110,7 @@ namespace librealsense
             }
         }
 
-        int get_counter(std::string key)
+        int get_counter(std::string key) 
         {
             if (_mp.find(key) == _mp.end())
             {
@@ -121,18 +121,26 @@ namespace librealsense
 
     private:
         std::unordered_map<std::string, RS2_AUS_VALUE> _mp;
-        std::string version = "VERSION";
+        std::string version_str = "VERSION";
         std::string start_time_str = "START_TIME";
-    };// class aus_Data
+        std::time_t _start_time;
+        std::string _librealsense_version = "2.50.0";
+
+        std::time_t _get_run_time() {
+            std::time_t current_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            return current_time - _start_time;
+        }
+
+    }; // class aus_Data
 
 #else
     class aus_data
     {
 
     public:
-        void print_data() const 
+        void print_stats() const 
         {
-            std::cout << "print_data() not working - should build with cmake flag" << std::endl;
+            std::cout << "print_stats() not working - should build with cmake flag" << std::endl;
         }
 
         void increase_counter(std::string key)
@@ -145,6 +153,12 @@ namespace librealsense
             std::cout << "get_counter(std::string key) not working - should build with cmake flag" << std::endl;
             return 0;
         }
+
+        std::time_t get_run_time() {
+            std::cout << "get_run_time() not working - should build with cmake flag" << std::endl;
+            return 0;
+        }
+
     }; //class aus_data
 #endif
  

@@ -1,7 +1,7 @@
 # License: Apache 2.0. See LICENSE file in root directory.
 # Copyright(c) 2022 Intel Corporation. All Rights Reserved.
 
-# test:device D400*
+
 import sys
 
 import pyrealsense2 as rs
@@ -23,8 +23,6 @@ try:
     used_filters = rs.aus_get_counter("RS2_AUS_USED_FILTERS")
     test.check_equal(used_filters, 0)
 
-    # run_time = rs.get_run_time_aus()
-    # test.check()
 except:
     test.unexpected_exception()
 test.finish()

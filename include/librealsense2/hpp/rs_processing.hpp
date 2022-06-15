@@ -484,11 +484,19 @@ namespace rs2
         std::shared_ptr<rs2_processing_block> init()
         {
             rs2_error* e = nullptr;
-
+            
             auto block = std::shared_ptr<rs2_processing_block>(
                 rs2_create_pointcloud(&e),
                 rs2_delete_processing_block);
 
+            error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
+            error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_POINTCLOUD_FILTER_INIT", &e);
             error::handle(e);
 
             // Redirect options API to the processing block
@@ -508,7 +516,8 @@ namespace rs2
         * The SDK will automatically try to use SSE2 and AVX instructions and CUDA where available to get
         * best performance. Other implementations (using GLSL, OpenCL, Neon and NCS) should follow.
         */
-        yuy_decoder() : filter(init(), 1) { }
+        yuy_decoder() : filter(init(), 1) {
+        }
 
     protected:
         yuy_decoder(std::shared_ptr<rs2_processing_block> block) : filter(block, 1) {}
@@ -521,6 +530,9 @@ namespace rs2
                 rs2_create_yuy_decoder(&e),
                 rs2_delete_processing_block);
             error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }
@@ -548,6 +560,9 @@ namespace rs2
                 rs2_create_y411_decoder(&e),
                 rs2_delete_processing_block);
             error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }
@@ -589,6 +604,9 @@ namespace rs2
                 rs2_delete_processing_block);
             error::handle(e);
 
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
+
             return block;
         }
     };
@@ -612,6 +630,9 @@ namespace rs2
                 rs2_create_units_transform(&e),
                 rs2_delete_processing_block);
             error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }
@@ -745,6 +766,9 @@ namespace rs2
                 rs2_delete_processing_block);
             error::handle(e);
 
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
+
             return block;
         }
     };
@@ -801,6 +825,9 @@ namespace rs2
             // Redirect options API to the processing block
             //options::operator=(pb);
 
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
+
             return block;
         }
     };
@@ -846,6 +873,8 @@ namespace rs2
 
             // Redirect options API to the processing block
             //options::operator=(this);
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }
@@ -996,6 +1025,9 @@ namespace rs2
                 rs2_delete_processing_block);
             error::handle(e);
 
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
+
             // Redirect options API to the processing block
             //options::operator=(pb);
 
@@ -1067,6 +1099,9 @@ namespace rs2
                 rs2_create_huffman_depth_decompress_block(&e),
                 rs2_delete_processing_block);
             error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }
@@ -1175,6 +1210,9 @@ namespace rs2
                 rs2_create_hdr_merge_processing_block(&e),
                 rs2_delete_processing_block);
             error::handle(e);
+
+            e = nullptr;
+            rs2_aus_increase_counter("RS2_AUS_FILTERS", &e);
 
             return block;
         }

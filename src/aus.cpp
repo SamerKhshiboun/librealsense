@@ -15,12 +15,12 @@ namespace librealsense
 
 void librealsense::aus_init()
 {
-    std::cout << "librealsense::aus_init" << std::endl;
+    std::cout << "Starting to collect Anonymous Usage Statistics" << std::endl;
 }
 
-void librealsense::aus_print()
+void librealsense::aus_print_stats()
 {
-    aus_data_obj.print_data();
+    aus_data_obj.print_stats();
 }
 
 void librealsense::aus_declare_counter(std::string counter)
@@ -45,9 +45,9 @@ void librealsense::aus_init()
     throw std::runtime_error("aus_init is not supported without BUILD_AUS");
 }
 
-void librealsense::aus_print()
+void librealsense::aus_print_stats()
 {
-    throw std::runtime_error("aus_print is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_print_stats is not supported without BUILD_AUS");
 }
 
 void librealsense::aus_increase_counter(std::string counter)

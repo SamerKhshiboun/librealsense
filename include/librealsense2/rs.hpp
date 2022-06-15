@@ -58,10 +58,10 @@ namespace rs2
         error::handle(e);
     }
 
-    inline void aus_print()
+    inline void aus_print_stats()
     {
         rs2_error* e = nullptr;
-        rs2_aus_print(&e);
+        rs2_aus_print_stats(&e);
         error::handle(e);
     }
 

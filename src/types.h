@@ -201,7 +201,7 @@ namespace librealsense
     ///////////////////////
 
     void aus_init();
-    void aus_print();
+    void aus_print_stats();
     void aus_declare_counter(std::string counter);
     void aus_increase_counter(std::string counter);
     int aus_get_counter(std::string counter);

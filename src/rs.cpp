@@ -1354,9 +1354,9 @@ void rs2_aus_init(rs2_error** error) BEGIN_API_CALL
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
-void rs2_aus_print(rs2_error** error) BEGIN_API_CALL
+void rs2_aus_print_stats(rs2_error** error) BEGIN_API_CALL
 {
-    librealsense::aus_print();
+    librealsense::aus_print_stats();
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 

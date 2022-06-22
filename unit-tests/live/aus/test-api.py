@@ -1,17 +1,15 @@
 # License: Apache 2.0. See LICENSE file in root directory.
 # Copyright(c) 2022 Intel Corporation. All Rights Reserved.
 
-from time import sleep
-
 import pyrealsense2 as rs
 from rspy import devices, log, test, file, repo
-
+from time import sleep
 
 #############################################################################################
 # Tests
 #############################################################################################
 
-test.start("Test set without parameters (default value 0)")
+test.start("Test set without parameter (default value 0)")
 try:
     rs.aus_set("USER_COUNTER_1")
     user_counter_1 = rs.aus_get_counter("USER_COUNTER_1")
@@ -33,7 +31,7 @@ test.finish()
 
 #############################################################################################
 
-test.start("Test increasing an already defined parameter")
+test.start("Test increase an already defined parameter")
 try:
     rs.aus_set("USER_COUNTER_3")
     for n in range(10):
@@ -46,7 +44,7 @@ test.finish()
 
 #############################################################################################
 
-test.start("Test increasing a new parameter")
+test.start("Test increase a new parameter")
 try:
     for n in range(10):
         rs.aus_increase("USER_COUNTER_4")
@@ -58,7 +56,7 @@ test.finish()
 
 #############################################################################################
 
-test.start("Test set of an already defined parameter")
+test.start("Test set of an already defined parameter (should throw exception)")
 try:
     rs.aus_set("USER_COUNTER_4")
 except:
@@ -71,10 +69,12 @@ else:
 test.start("Test timer (start, stop, get)")
 try:
     rs.aus_start_timer("TEST_TIMER")
-    sleep(3)
+    sleep(2)
     rs.aus_stop_timer("TEST_TIMER")
+    sleep(2)
     test_timer = rs.aus_get_timer("TEST_TIMER")
-    test.check(test_timer >= 3)
+    test.check(test_timer >= 2)
+    test.check(test_timer <= 3)
 except:
     test.unexpected_exception()
 test.finish()
@@ -91,6 +91,5 @@ except:
 test.finish()
 
 #############################################################################################
-# FINISH TESTS
 
 test.print_results_and_exit()

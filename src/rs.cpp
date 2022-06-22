@@ -630,9 +630,8 @@ HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 const char * rs2_get_aus_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(buffer);
-    std::string item = buffer->buffer[i];
-    const char* item_cstr = item.c_str();
-    return item_cstr;
+    //VALIDATE_NOT_NULL(buffer[i]);
+    return buffer->buffer[i].c_str();
 }
 HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 

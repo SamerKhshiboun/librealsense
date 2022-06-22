@@ -13,9 +13,6 @@ namespace librealsense
     static aus_data aus_data_obj;
 }
 
-
-
-
 void librealsense::aus_set(std::string counter, int val)
 {
     aus_data_obj.set(counter, val);
@@ -24,6 +21,33 @@ void librealsense::aus_set(std::string counter, int val)
 void librealsense::aus_increase(std::string counter)
 {
     aus_data_obj.increase(counter);
+}
+
+
+std::string librealsense::aus_build_system_timer_name(std::string suffix, std::string device_name)
+{
+    std::string result = "RS2_AUS_";
+    if (device_name != "")
+    {
+        result += device_name + "_";
+    }
+    result += suffix + "_TIMER";
+    std::replace(result.begin(), result.end(), ' ', '_');
+    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+    return result;
+}
+
+std::string librealsense::aus_build_system_counter_name(std::string suffix, std::string device_name)
+{
+    std::string result = "RS2_AUS_";
+    if (device_name != "")
+    {
+        result += device_name + "_";
+    }
+    result += suffix + "_COUNTER";
+    std::replace(result.begin(), result.end(), ' ', '_');
+    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+    return result;
 }
 
 void librealsense::aus_start_timer(std::string timer)
@@ -72,6 +96,16 @@ void librealsense::aus_start_timer(std::string timer)
 void librealsense::aus_stop_timer(std::string timer)
 {
     throw std::runtime_error("aus_stop_timer is not supported without BUILD_AUS");
+}
+
+std::string librealsense::aus_build_system_timer_name(std::string suffix, std::string device_name)
+{
+    throw std::runtime_error("aus_build_system_timer_name is not supported without BUILD_AUS");
+}
+
+std::string librealsense::aus_build_system_counter_name(std::string suffix, std::string device_name)
+{
+    throw std::runtime_error("aus_build_system_counter_name is not supported without BUILD_AUS");
 }
 
 int librealsense::aus_get_counter(std::string counter)

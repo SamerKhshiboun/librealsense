@@ -38,23 +38,23 @@ namespace librealsense
             _running = false;
         }
 
-        friend std::ostream& operator<<(std::ostream& os, RS2_AUS_TIMER_STRUCT const& arg)
-        {
-            if (!arg._running) {
-                os << "Timer has started at: " << arg._start << " and stopped at: " << arg._end;
-                os << " Total Runtime = " << (arg._end - arg._start);
-            }
-            else {
-                os << "Timer has started at: " << arg._start << " and is still running.";
-            }
-        }
+        //friend std::ostream& operator<<(std::ostream& os, RS2_AUS_TIMER_STRUCT const& arg)
+        //{
+        //    if (!arg._running) {
+        //        os << "Timer has started at: " << arg._start << " and stopped at: " << arg._end;
+        //        os << " Total Runtime = " << (arg._end - arg._start);
+        //    }
+        //    else {
+        //        os << "Timer has started at: " << arg._start << " and is still running.";
+        //    }
+        //}
 
-        std::string to_string(RS2_AUS_TIMER_STRUCT const& arg)
-        {
-            std::ostringstream ss;
-            ss << arg;
-            return std::move(ss).str();  // enable efficiencies in c++17
-        }
+        //std::string to_string(RS2_AUS_TIMER_STRUCT const& arg)
+        //{
+        //    std::ostringstream ss;
+        //    ss << arg;
+        //    return std::move(ss).str();  // enable efficiencies in c++17
+        //}
 
 
     } RS2_AUS_TIMER;
@@ -136,7 +136,7 @@ namespace librealsense
         {
             if (_counters_mp.find(key) == _counters_mp.end())
             {
-                throw std::runtime_error("counter does not exist");
+                throw std::runtime_error("counter " + key + " does not exist");
             }
             return _counters_mp[key]._counter;
         }

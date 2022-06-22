@@ -540,13 +540,9 @@ void log_callback_end( uint32_t fps,
         _is_streaming = true;
 
         //SAMER AUS
-        auto dev = this->get_device().shared_from_this();
-        std::string camera_name = dev->get_info(RS2_CAMERA_INFO_NAME);
-        std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-        std::string timer_name = "RS2_AUS_" + camera_name + "_UVC_STREAM_TIMER";
-        std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
         librealsense::aus_start_timer(timer_name);
-
         
         _device->start_callbacks();
     }
@@ -559,24 +555,10 @@ void log_callback_end( uint32_t fps,
 
         _is_streaming = false;
 
-        std::string camera_name = "";
-        try {
-            std::cout << " Trying to stop UVC STREAM TIMER " << std::endl;
-            //SAMER AUS
-            auto dev = this->get_device().shared_from_this();
-            camera_name = dev->get_info(RS2_CAMERA_INFO_NAME);
-            std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-            std::string timer_name = "RS2_AUS_" + camera_name + "_UVC_STREAM_TIMER";
-            std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
-            librealsense::aus_stop_timer(timer_name);
-            std::cout << " DONE STOPPED ==> UVC STREAM TIMER " << std::endl;
-
-        }
-        catch (...) 
-        {
-            std::cout << " EXCEPTION AT STOPPING UVC STREAM TIMER " << std::endl;
-
-        }
+        //SAMER AUS
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
+        librealsense::aus_stop_timer(timer_name);
 
         _device->stop_callbacks();
         raise_on_before_streaming_changes(false);
@@ -959,11 +941,8 @@ void log_callback_end( uint32_t fps,
         _is_streaming = true;
 
         //SAMER AUS
-        auto dev = this->get_device().shared_from_this();
-        std::string camera_name = dev->get_info(RS2_CAMERA_INFO_NAME);
-        std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-        std::string timer_name = "RS2_AUS_" + camera_name + "_HID_STREAM_TIMER";
-        std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
         librealsense::aus_start_timer(timer_name);
     }
 
@@ -977,26 +956,10 @@ void log_callback_end( uint32_t fps,
         _hid_device->stop_capture();
         _is_streaming = false;
 
-        std::string camera_name = "";
-        try {
-            std::cout << " TRYING TO STOP HID STREAM TIMER " << std::endl;
-
-            //SAMER AUS
-            auto dev = this->get_device().shared_from_this();
-            camera_name = dev->get_info(RS2_CAMERA_INFO_NAME);
-            std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-            std::string timer_name = "RS2_AUS_" + camera_name + "_HID_STREAM_TIMER";
-            std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
-            librealsense::aus_stop_timer(timer_name);
-            std::cout << " DONE STOPPING HID STREAM TIMER " << std::endl;
-
-
-        }
-        catch (...)
-        {
-            std::cout << " EXCEPTION AT STOPPING HID STREAM TIMER " << std::endl;
-
-        }
+        //SAMER AUS
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
+        librealsense::aus_stop_timer(timer_name);
 
         _source.flush();
         _source.reset();
@@ -1616,14 +1579,6 @@ void log_callback_end( uint32_t fps,
     {
         std::lock_guard<std::mutex> lock(_synthetic_configure_lock);
 
-        //SAMER AUS
-        auto dev = this->get_device().shared_from_this();
-        std::string camera_name = dev->get_info(RS2_CAMERA_INFO_NAME);
-        std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-        std::string timer_name = "RS2_AUS_" + camera_name + "_SYNTHETIC_STREAM_TIMER";
-        std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
-        librealsense::aus_start_timer(timer_name);
-
         // Set the post-processing callback as the user callback.
         // This callback might be modified by other object.
         set_frames_callback(callback);
@@ -1686,6 +1641,11 @@ void log_callback_end( uint32_t fps,
             }
         });
 
+        // SAMER AUS
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
+        librealsense::aus_start_timer(timer_name);
+
         // Call the processing block on the frame
         _raw_sensor->start(process_cb);
     }
@@ -1693,28 +1653,12 @@ void log_callback_end( uint32_t fps,
     void synthetic_sensor::stop()
     {
         std::lock_guard<std::mutex> lock(_synthetic_configure_lock);
+        
+        // SAMER AUS
+        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
+        librealsense::aus_stop_timer(timer_name);
 
-        auto& samer = _owner;
-                
-        std::string camera_name = "";
-        try {
-            std::cout << " TRYING TO STOP SYNTHETIC STREAM TIMER " << std::endl;
-
-            //SAMER AUS
-            auto& dev = get_device();
-            camera_name = dev.get_info(RS2_CAMERA_INFO_NAME);
-            std::transform(camera_name.begin(), camera_name.end(), camera_name.begin(), ::toupper);
-            std::string timer_name = "RS2_AUS_" + camera_name + "_SYNTHETIC_STREAM_TIMER";
-            std::replace(timer_name.begin(), timer_name.end(), ' ', '_');
-            librealsense::aus_start_timer(timer_name);
-            std::cout << " DONE STOPPING SYNTHETIC STREAM TIMER " << std::endl;
-
-
-        }
-        catch (...) {
-            std::cout << " EXCEPTION WHILE STOPPING SYNTHETIC STREAM TIMER " << std::endl;
-
-        }
         _raw_sensor->stop();
     }
 

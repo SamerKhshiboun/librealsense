@@ -110,17 +110,6 @@ int main(int argc, char * argv[]) try
         render_slider({ 15.f, app.height() - 60, app.width() - 30, app.height() }, &alpha, &dir);
         ImGui::Render();
     }
-    std::vector<std::string> res = rs2::aus_get_counters_names();
-    for (int i = 0; i < res.size(); i++) {
-        if (res[i].find("TIMER") != std::string::npos) {
-            auto a = rs2::aus_get_timer(res[i].c_str());
-            std::cout << res[i] << " : " << a << std::endl;
-        }
-        else {
-            auto a = rs2::aus_get_counter(res[i].c_str());
-            std::cout << res[i] << " : " << a << std::endl;
-        }
-    }
     return EXIT_SUCCESS;
 }
 catch (const rs2::error & e)

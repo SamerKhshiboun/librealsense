@@ -36,7 +36,6 @@
 #include <utility>                          // For std::forward
 #include <limits>
 #include <iomanip>
-#include <variant>
 
 typedef unsigned char byte;
 
@@ -199,6 +198,7 @@ namespace librealsense
     ///////////////////////
     //   AUS mechanism   //
     ///////////////////////
+
     void aus_set(std::string counter, int val = 0);
     void aus_increase(std::string counter);
     int aus_get_counter(std::string counter);

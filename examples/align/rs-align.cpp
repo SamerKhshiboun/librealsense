@@ -110,6 +110,7 @@ int main(int argc, char * argv[]) try
         render_slider({ 15.f, app.height() - 60, app.width() - 30, app.height() }, &alpha, &dir);
         ImGui::Render();
     }
+
     return EXIT_SUCCESS;
 }
 catch (const rs2::error & e)

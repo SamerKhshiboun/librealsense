@@ -743,7 +743,6 @@ namespace librealsense
           _right_ir_stream(new stream(RS2_STREAM_INFRARED, 2)),
           _color_stream(nullptr)
     {
-        //SAMER AUS
         std::string ds5_devices_counter = librealsense::aus_build_system_counter_name("CONNECTED_DEVICES", "DS5");
         librealsense::aus_increase(ds5_devices_counter);
 

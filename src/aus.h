@@ -7,12 +7,12 @@
 
 namespace librealsense
 {
-    typedef struct RS2_AUS_TIMER_STRUCT {
+    typedef struct rs2_aus_timer_struct {
         rs2_time_t _start;
         rs2_time_t _end;
         bool _running;
 
-        RS2_AUS_TIMER_STRUCT() : _start(0), _end(0), _running(false) { }
+        rs2_aus_timer_struct() : _start(0), _end(0), _running(false) { }
 
         void start()
         {
@@ -38,39 +38,21 @@ namespace librealsense
             _running = false;
         }
 
-        //friend std::ostream& operator<<(std::ostream& os, RS2_AUS_TIMER_STRUCT const& arg)
-        //{
-        //    if (!arg._running) {
-        //        os << "Timer has started at: " << arg._start << " and stopped at: " << arg._end;
-        //        os << " Total Runtime = " << (arg._end - arg._start);
-        //    }
-        //    else {
-        //        os << "Timer has started at: " << arg._start << " and is still running.";
-        //    }
-        //}
+        
+    } rs2_aus_timer;
 
-        //std::string to_string(RS2_AUS_TIMER_STRUCT const& arg)
-        //{
-        //    std::ostringstream ss;
-        //    ss << arg;
-        //    return std::move(ss).str();  // enable efficiencies in c++17
-        //}
-
-
-    } RS2_AUS_TIMER;
-
-    typedef struct RS2_AUS_VALUE_STRUCT {
+    typedef struct rs2_aus_value_struct {
 
         enum { t_int, t_timer} type_id;
         union 
         {
             int _counter;
-            RS2_AUS_TIMER _timer;
+            rs2_aus_timer _timer;
         };
 
-        RS2_AUS_VALUE_STRUCT(int counter = 0) : type_id{ t_int }, _counter{ counter } {}
-        RS2_AUS_VALUE_STRUCT(RS2_AUS_TIMER timer) : type_id{ t_timer }, _timer{ timer } {}
-        ~RS2_AUS_VALUE_STRUCT()
+        rs2_aus_value_struct(int counter = 0) : type_id { t_int } , _counter{ counter } {}
+        rs2_aus_value_struct(rs2_aus_timer timer) : type_id{ t_timer }, _timer{ timer } {}
+        ~rs2_aus_value_struct()
         {
             switch (type_id)
             {
@@ -82,7 +64,7 @@ namespace librealsense
             }
         }
 
-        RS2_AUS_VALUE_STRUCT(const RS2_AUS_VALUE_STRUCT& other)
+        rs2_aus_value_struct(const rs2_aus_value_struct& other)
         {
             type_id = other.type_id;
             switch (type_id) {
@@ -95,19 +77,17 @@ namespace librealsense
             }
         }
 
-    } RS2_AUS_VALUE ;
-
+    } rs2_aus_value;
 
 #ifdef BUILD_AUS
 
-
     class aus_data
     {
+
     public:
         aus_data()
         {
-            _start_time = std::chrono::system_clock::to_time_t(
-                std::chrono::system_clock::now());
+            _start_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             _librealsense_version = RS2_API_VERSION_STR;
         }
 
@@ -115,9 +95,9 @@ namespace librealsense
         {
             if (_counters_mp.find(key) != _counters_mp.end())
             {
-                throw std::runtime_error("counter already exists");
+                throw std::runtime_error("counter \"" + key + "\" already exists");
             }
-            _counters_mp[key] = RS2_AUS_VALUE(value);
+            _counters_mp[key] = rs2_aus_value(value);
         }
 
         void increase(std::string key)
@@ -128,7 +108,7 @@ namespace librealsense
             }
             else
             {
-                _counters_mp[key] = RS2_AUS_VALUE(1);
+                _counters_mp[key] = rs2_aus_value(1);
             }
         }
 
@@ -136,7 +116,7 @@ namespace librealsense
         {
             if (_counters_mp.find(key) == _counters_mp.end())
             {
-                throw std::runtime_error("counter " + key + " does not exist");
+                throw std::runtime_error("counter \"" + key + "\" does not exist");
             }
             return _counters_mp[key]._counter;
         }
@@ -145,9 +125,9 @@ namespace librealsense
         {
             if (_counters_mp.find(key) == _counters_mp.end())
             {
-                RS2_AUS_TIMER timer;
+                rs2_aus_timer timer;
                 timer.start();
-                _counters_mp[key] = RS2_AUS_VALUE(timer);
+                _counters_mp[key] = rs2_aus_value(timer);
             }
             else
             {
@@ -158,7 +138,7 @@ namespace librealsense
         void stop_timer(std::string key)
         {
             if (_counters_mp.find(key) == _counters_mp.end()) {
-                throw std::runtime_error("timer does not exist");
+                throw std::runtime_error("timer \"" + key + "\" does not exist");
             }
             _counters_mp[key]._timer.stop();
         }
@@ -167,10 +147,10 @@ namespace librealsense
         {
             if (_counters_mp.find(key) == _counters_mp.end())
             {
-                throw std::runtime_error("timer does not exist");
+                throw std::runtime_error("timer \"" + key + "\" does not exist");
             }
 
-            RS2_AUS_TIMER timer = _counters_mp[key]._timer;
+            rs2_aus_timer timer = _counters_mp[key]._timer;
 
             if (timer._running)
             {
@@ -180,7 +160,6 @@ namespace librealsense
             else {
                 return timer._end - timer._start;
             }
-
         }
 
         std::vector<std::string> get_counters_names()
@@ -192,25 +171,18 @@ namespace librealsense
             return result;
         }
 
-
     private:
-        std::unordered_map<std::string, RS2_AUS_VALUE> _counters_mp;
+        std::unordered_map<std::string, rs2_aus_value> _counters_mp;
         rs2_time_t _start_time;
         std::string _librealsense_version;
 
-        std::time_t _get_run_time() {
-            rs2_time_t current_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            return current_time - _start_time;
-        }
-
-    }; // class aus_Data
+    }; // end of class aus_data
 
 #else
     class aus_data
     {
-
     public:
-        
+
         void set(std::string key, int value)
         {
             throw std::runtime_error("set is not supported without BUILD_AUS");
@@ -250,8 +222,7 @@ namespace librealsense
             throw std::runtime_error("get_run_time is not supported without BUILD_AUS");
         }
 
+    }; // end of class aus_data
 
-    }; //class aus_data
 #endif
- 
 }

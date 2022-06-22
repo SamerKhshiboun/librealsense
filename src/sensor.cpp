@@ -539,7 +539,6 @@ void log_callback_end( uint32_t fps,
         _source.set_callback(callback);
         _is_streaming = true;
 
-        //SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
         librealsense::aus_start_timer(timer_name);
@@ -555,7 +554,6 @@ void log_callback_end( uint32_t fps,
 
         _is_streaming = false;
 
-        //SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
         librealsense::aus_stop_timer(timer_name);
@@ -940,7 +938,6 @@ void log_callback_end( uint32_t fps,
         });
         _is_streaming = true;
 
-        //SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
         librealsense::aus_start_timer(timer_name);
@@ -956,7 +953,6 @@ void log_callback_end( uint32_t fps,
         _hid_device->stop_capture();
         _is_streaming = false;
 
-        //SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
         librealsense::aus_stop_timer(timer_name);
@@ -1641,7 +1637,6 @@ void log_callback_end( uint32_t fps,
             }
         });
 
-        // SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
         librealsense::aus_start_timer(timer_name);
@@ -1654,7 +1649,6 @@ void log_callback_end( uint32_t fps,
     {
         std::lock_guard<std::mutex> lock(_synthetic_configure_lock);
         
-        // SAMER AUS
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
         librealsense::aus_stop_timer(timer_name);

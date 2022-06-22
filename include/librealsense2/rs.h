@@ -36,7 +36,6 @@ extern "C" {
 #define VAR_ARG_STRING(arg) STRINGIFY(arg)
 #endif
 
-
 /* Versioning rules            : For each release at least one of [MJR/MNR/PTCH] triple is promoted                                             */
 /*                             : Versions that differ by RS2_API_PATCH_VERSION only are interface-compatible, i.e. no user-code changes required */
 /*                             : Versions that differ by MAJOR/MINOR VERSION component can introduce API changes                                */
@@ -94,7 +93,6 @@ void rs2_reset_logger( rs2_error ** error);
 * \param[out] error     if non-null, receives any error that occurs during this call, otherwise, errors are ignored
 */
 void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
-
 
 
 unsigned rs2_get_log_message_line_number( rs2_log_message const * msg, rs2_error** error );

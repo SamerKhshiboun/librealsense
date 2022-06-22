@@ -483,8 +483,7 @@ namespace rs2
 
         std::shared_ptr<rs2_processing_block> init()
         {
-            rs2_error* e = nullptr;
-            
+            rs2_error* e = nullptr;            
             auto block = std::shared_ptr<rs2_processing_block>(
                 rs2_create_pointcloud(&e),
                 rs2_delete_processing_block);
@@ -508,8 +507,7 @@ namespace rs2
         * The SDK will automatically try to use SSE2 and AVX instructions and CUDA where available to get
         * best performance. Other implementations (using GLSL, OpenCL, Neon and NCS) should follow.
         */
-        yuy_decoder() : filter(init(), 1) {
-        }
+        yuy_decoder() : filter(init(), 1) {}
 
     protected:
         yuy_decoder(std::shared_ptr<rs2_processing_block> block) : filter(block, 1) {}

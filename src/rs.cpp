@@ -598,7 +598,6 @@ int rs2_get_raw_data_size(const rs2_raw_data_buffer* buffer, rs2_error** error) 
 }
 HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 
-//SAMER AUS
 int rs2_get_aus_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(buffer);
@@ -1385,8 +1384,6 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error ) BEGIN_
     librealsense::enable_rolling_log_file( max_size );
 }
 HANDLE_EXCEPTIONS_AND_RETURN(, max_size)
-
-//SAMER AUS
 
 void rs2_aus_set(const char* counter, int value, rs2_error** error) BEGIN_API_CALL
 {

@@ -79,10 +79,12 @@ PYBIND11_MODULE(NAME, m) {
 
 
     //AUS API
-    m.def("aus_init", &rs2::aus_init);
-    m.def("aus_declare_counter", &rs2::aus_declare_counter, "counter"_a);
-    m.def("aus_increase_counter", &rs2::aus_increase_counter, "counter"_a);
+    m.def("aus_set", &rs2::aus_set, "counter"_a, "value"_a = 0);
+    m.def("aus_increase", &rs2::aus_increase, "counter"_a);
     m.def("aus_get_counter", &rs2::aus_get_counter, "counter"_a);
-    m.def("aus_print_stats", &rs2::aus_print_stats);
+    m.def("aus_start_timer", &rs2::aus_start_timer, "timer"_a);
+    m.def("aus_stop_timer", &rs2::aus_stop_timer, "timer"_a);
+    m.def("aus_get_timer", &rs2::aus_get_timer, "timer"_a);
+    m.def("aus_get_counters_names", &rs2::aus_get_counters_names);
 
 }

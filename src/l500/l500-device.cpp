@@ -56,6 +56,9 @@ namespace librealsense
         _confidence_stream(new stream(RS2_STREAM_CONFIDENCE)),
         _temperatures()
     {
+        //SAMER AUS
+        librealsense::aus_increase("RS2_AUS_L500_CONNECTED_DEVICES");
+
         _depth_device_idx = add_sensor(create_depth_device(ctx, group.uvc_devices));
         _pid = group.uvc_devices.front().pid;
         std::string device_name = (rs500_sku_names.end() != rs500_sku_names.find(_pid)) ? rs500_sku_names.at(_pid) : "RS5xx";

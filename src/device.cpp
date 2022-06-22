@@ -192,7 +192,7 @@ device::device(std::shared_ptr<context> ctx,
         _callback_id = _context->register_internal_device_callback({ cb, [](rs2_devices_changed_callback* p) { p->release(); } });
     }
     //SAMER AUS
-    librealsense::aus_increase_counter("RS2_AUS_CONNECTED_DEVICES");
+    librealsense::aus_increase("RS2_AUS_CONNECTED_DEVICES");
 }
 
 device::~device()

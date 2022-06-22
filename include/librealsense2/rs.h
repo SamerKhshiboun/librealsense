@@ -53,6 +53,14 @@ extern "C" {
 */
 int rs2_get_raw_data_size(const rs2_raw_data_buffer* buffer, rs2_error** error);
 
+
+//AUS SAMER
+int rs2_get_aus_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error);
+void rs2_delete_aus_counters_names(const rs2_aus_counters_names* buffer);
+const char ** rs2_get_aus_counters_names_data(const rs2_aus_counters_names* buffer, rs2_error** error);
+const char * rs2_get_aus_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error);
+
+
 /**
 * Delete rs2_raw_data_buffer
 * \param[in] buffer        rs2_raw_data_buffer returned by rs2_send_and_receive_raw_data
@@ -95,11 +103,14 @@ void rs2_reset_logger( rs2_error ** error);
 void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error );
 
 //AUS
-void rs2_aus_init(rs2_error** error);
-void rs2_aus_print_stats(rs2_error** error);
-void rs2_aus_declare_counter(const char* counter, rs2_error** error);
-void rs2_aus_increase_counter(const char * counter, rs2_error** error);
-int rs2_aus_get_counter(const char * counter, rs2_error** error);
+void rs2_aus_set(const char* counter, int value, rs2_error** error);
+void rs2_aus_increase(const char * counter, rs2_error** error);
+int rs2_aus_get_counter(const char* counter, rs2_error** error);
+void rs2_aus_start_timer(const char* timer, rs2_error** error);
+void rs2_aus_stop_timer(const char* timer, rs2_error** error);
+rs2_time_t rs2_aus_get_timer(const char* timer, rs2_error** error);
+const rs2_aus_counters_names* rs2_aus_get_counters_names(rs2_error** error);
+//END OF AUS
 
 unsigned rs2_get_log_message_line_number( rs2_log_message const * msg, rs2_error** error );
 const char * rs2_get_log_message_filename( rs2_log_message const * msg, rs2_error** error );

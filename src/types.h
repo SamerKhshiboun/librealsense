@@ -200,11 +200,17 @@ namespace librealsense
     // AUS mechanism //
     ///////////////////////
 
-    void aus_init();
-    void aus_print_stats();
-    void aus_declare_counter(std::string counter);
-    void aus_increase_counter(std::string counter);
+   
+    void aus_set(std::string counter, int val);
+    void aus_increase(std::string counter);
     int aus_get_counter(std::string counter);
+
+    void aus_start_timer(std::string counter);
+    void aus_stop_timer(std::string counter);
+    rs2_time_t aus_get_timer(std::string counter);
+
+    std::vector<std::string> aus_get_counters_names();
+
 
     // Enhancement for debug mode that incurs performance penalty with STL
     // std::clamp to be introduced with c++17

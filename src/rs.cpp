@@ -598,6 +598,45 @@ int rs2_get_raw_data_size(const rs2_raw_data_buffer* buffer, rs2_error** error) 
 }
 HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 
+//SAMER AUS
+int rs2_get_aus_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    return static_cast<int>(buffer->buffer.size());
+}
+HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
+
+void rs2_delete_aus_counters_names(const rs2_aus_counters_names* buffer) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    delete buffer;
+}
+NOEXCEPT_RETURN(, buffer)
+
+const char** rs2_get_aus_counters_names_data(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    std::vector<const char*> vector_of_cstr;
+    for (std::string const& str : buffer->buffer) {
+        vector_of_cstr.push_back(str.data());
+    }
+
+    return vector_of_cstr.data();
+}
+HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
+
+
+
+const char * rs2_get_aus_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    std::string item = buffer->buffer[i];
+    const char* item_cstr = item.c_str();
+    return item_cstr;
+}
+HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
+
+
 void rs2_delete_raw_data(const rs2_raw_data_buffer* buffer) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(buffer);
@@ -1348,35 +1387,55 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error ) BEGIN_
 }
 HANDLE_EXCEPTIONS_AND_RETURN(, max_size)
 
-void rs2_aus_init(rs2_error** error) BEGIN_API_CALL
-{
-    librealsense::aus_init();
-}
-NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+//SAMER AUS
 
-void rs2_aus_print_stats(rs2_error** error) BEGIN_API_CALL
-{
-    librealsense::aus_print_stats();
-}
-NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
-
-void rs2_aus_declare_counter(const char* counter, rs2_error** error) BEGIN_API_CALL
+void rs2_aus_set(const char* counter, int value, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(counter);
-    librealsense::aus_declare_counter(counter);
+    librealsense::aus_set(counter, value);
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
-void rs2_aus_increase_counter(const char * counter, rs2_error** error) BEGIN_API_CALL
+void rs2_aus_increase(const char * counter, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(counter);
-    librealsense::aus_increase_counter(counter);
+    librealsense::aus_increase(counter);
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
 int rs2_aus_get_counter(const char* counter, rs2_error** error) BEGIN_API_CALL
 {
+    VALIDATE_NOT_NULL(counter);
     return librealsense::aus_get_counter(counter);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
+
+void rs2_aus_start_timer(const char* timer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(timer);
+    librealsense::aus_start_timer(timer);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+
+void rs2_aus_stop_timer(const char* timer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(timer);
+    librealsense::aus_stop_timer(timer);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
+
+rs2_time_t rs2_aus_get_timer(const char* timer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(timer);
+    return librealsense::aus_get_timer(timer);
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
+
+const rs2_aus_counters_names* rs2_aus_get_counters_names(rs2_error** error) BEGIN_API_CALL
+{
+    auto ret = librealsense::aus_get_counters_names();
+    return new rs2_aus_counters_names{ std::move(ret) };
+
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
 
@@ -2320,7 +2379,6 @@ rs2_processing_block* rs2_create_colorizer(rs2_error** error) BEGIN_API_CALL
     auto block = std::make_shared<librealsense::colorizer>();
 
     auto res = new rs2_processing_block{ block };
-
     return res;
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(nullptr)

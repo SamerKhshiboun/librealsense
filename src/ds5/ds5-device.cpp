@@ -743,6 +743,9 @@ namespace librealsense
           _right_ir_stream(new stream(RS2_STREAM_INFRARED, 2)),
           _color_stream(nullptr)
     {
+        //SAMER AUS
+        librealsense::aus_increase("RS2_AUS_DS5_CONNECTED_DEVICES");
+
         _depth_device_idx = add_sensor(create_depth_device(ctx, group.uvc_devices));
         init(ctx, group);
     }

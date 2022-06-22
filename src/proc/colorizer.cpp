@@ -136,7 +136,10 @@ namespace librealsense
 
     colorizer::colorizer()
         : colorizer("Depth Visualization")
-    {}
+    {
+        //SAMER AUS
+        librealsense::aus_increase("RS2_AUS_COLORIZER_FILTER_INIT");
+    }
 
     colorizer::colorizer(const char* name)
         : stream_filter_processing_block(name),
@@ -331,6 +334,9 @@ namespace librealsense
             make_equalized_histogram(f, ret);
         else
             make_value_cropped_frame(f, ret);
+
+        //SAMER AUS
+        librealsense::aus_increase("RS2_AUS_COLORIZER_FILTER_PROCESSED_FRAMES");
 
         return ret;
     }

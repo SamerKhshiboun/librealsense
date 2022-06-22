@@ -15,6 +15,11 @@ struct rs2_raw_data_buffer
     std::vector<uint8_t> buffer;
 };
 
+struct rs2_aus_counters_names
+{
+    std::vector<std::string> buffer;
+};
+
 typedef struct rs2_error rs2_error;
 
 struct rs2_notification

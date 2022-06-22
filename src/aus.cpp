@@ -13,24 +13,26 @@ namespace librealsense
     static aus_data aus_data_obj;
 }
 
-void librealsense::aus_init()
+
+
+
+void librealsense::aus_set(std::string counter, int val)
 {
-    std::cout << "Starting to collect Anonymous Usage Statistics" << std::endl;
+    aus_data_obj.set(counter, val);
 }
 
-void librealsense::aus_print_stats()
+void librealsense::aus_increase(std::string counter)
 {
-    aus_data_obj.print_stats();
+    aus_data_obj.increase(counter);
 }
 
-void librealsense::aus_declare_counter(std::string counter)
+void librealsense::aus_start_timer(std::string timer)
 {
-    aus_data_obj.declare_counter(counter);
+    aus_data_obj.start_timer(timer);
 }
-
-void librealsense::aus_increase_counter(std::string counter)
+void librealsense::aus_stop_timer(std::string timer)
 {
-    aus_data_obj.increase_counter(counter);
+    aus_data_obj.stop_timer(timer);
 }
 
 int librealsense::aus_get_counter(std::string counter)
@@ -38,26 +40,53 @@ int librealsense::aus_get_counter(std::string counter)
     return aus_data_obj.get_counter(counter);
 }
 
-#else // BUILD_AUS
-
-void librealsense::aus_init()
+rs2_time_t librealsense::aus_get_timer(std::string timer)
 {
-    throw std::runtime_error("aus_init is not supported without BUILD_AUS");
+    return aus_data_obj.get_timer(timer);
 }
 
-void librealsense::aus_print_stats()
+std::vector<std::string> librealsense::aus_get_counters_names()
+{
+   return aus_data_obj.get_counters_names();
+}
+
+
+#else // BUILD_AUS
+
+
+void librealsense::aus_set(std::string counter, int val)
 {
     throw std::runtime_error("aus_print_stats is not supported without BUILD_AUS");
 }
 
-void librealsense::aus_increase_counter(std::string counter)
+void librealsense::aus_increase(std::string counter)
 {
-    throw std::runtime_error("aus_increase_counter is not supported without BUILD_AUS");
+    throw std::runtime_error("aus_increase is not supported without BUILD_AUS");
+}
+
+void librealsense::aus_start_timer(std::string timer)
+{
+    throw std::runtime_error("aus_start_timer is not supported without BUILD_AUS");
+}
+
+void librealsense::aus_stop_timer(std::string timer)
+{
+    throw std::runtime_error("aus_stop_timer is not supported without BUILD_AUS");
 }
 
 int librealsense::aus_get_counter(std::string counter)
 {
     throw std::runtime_error("aus_get_counter is not supported without BUILD_AUS");
+}
+
+rs2_time_t librealsense::aus_get_timer(std::string timer)
+{
+    throw std::runtime_error("aus_get_timer is not supported without BUILD_AUS");
+}
+
+std::vector<std::string> librealsense::aus_get_counters_names()
+{
+    throw std::runtime_error("get_counters_names is not supported without BUILD_AUS");
 }
 
 #endif // BUILD_AUS

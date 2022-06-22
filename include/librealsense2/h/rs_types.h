@@ -259,6 +259,7 @@ typedef struct rs2_device rs2_device;
 typedef struct rs2_error rs2_error;
 typedef struct rs2_log_message rs2_log_message;
 typedef struct rs2_raw_data_buffer rs2_raw_data_buffer;
+typedef struct rs2_aus_counters_names rs2_aus_counters_names;
 typedef struct rs2_frame rs2_frame;
 typedef struct rs2_frame_queue rs2_frame_queue;
 typedef struct rs2_pipeline rs2_pipeline;
@@ -307,6 +308,8 @@ const char* rs2_get_failed_function            (const rs2_error* error);
 const char* rs2_get_failed_args                (const rs2_error* error);
 const char* rs2_get_error_message              (const rs2_error* error);
 void        rs2_free_error                     (rs2_error* error);
+ 
+typedef struct RS2_AUS_VALUE RS2_AUS_VALUE;
 
 #ifdef __cplusplus
 }

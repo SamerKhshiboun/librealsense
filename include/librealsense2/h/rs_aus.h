@@ -1,9 +1,9 @@
 /* License: Apache 2.0. See LICENSE file in root directory.
    Copyright(c) 2022 Intel Corporation. All Rights Reserved. */
 
-	/** \file rs_aus.h
-   * \brief Exposes RealSense device functionality for C compilers
-   */
+/** \file rs_aus.h
+* \brief Exposes RealSense Anonymous Usage Statictics functionality for C compilers
+*/
 
 
 #ifndef LIBREALSENSE_RS2_AUS_H

@@ -4,8 +4,8 @@
 #ifndef LIBREALSENSE_RS2_AUS_HPP
 #define LIBREALSENSE_RS2_AUS_HPP
 
-#include "rs.h"
-#include "hpp/rs_types.hpp"
+#include "rs_types.hpp"
+#include <vector>
 
 namespace rs2
 {

@@ -69,12 +69,12 @@ else:
 test.start("Test timer (start, stop, get)")
 try:
     rs.aus_start_timer("TEST_TIMER")
-    sleep(2)
+    sleep(1)
     rs.aus_stop_timer("TEST_TIMER")
-    sleep(2)
+    sleep(1)
     test_timer = rs.aus_get_timer("TEST_TIMER")
-    test.check(test_timer >= 2)
-    test.check(test_timer <= 3)
+    test.check(test_timer >= 1)
+    test.check(test_timer <= 2)
 except:
     test.unexpected_exception()
 test.finish()

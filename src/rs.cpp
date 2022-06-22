@@ -598,43 +598,6 @@ int rs2_get_raw_data_size(const rs2_raw_data_buffer* buffer, rs2_error** error) 
 }
 HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 
-int rs2_get_aus_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
-{
-    VALIDATE_NOT_NULL(buffer);
-    return static_cast<int>(buffer->buffer.size());
-}
-HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
-
-void rs2_delete_aus_counters_names(const rs2_aus_counters_names* buffer) BEGIN_API_CALL
-{
-    VALIDATE_NOT_NULL(buffer);
-    delete buffer;
-}
-NOEXCEPT_RETURN(, buffer)
-
-const char** rs2_get_aus_counters_names_data(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
-{
-    VALIDATE_NOT_NULL(buffer);
-    std::vector<const char*> vector_of_cstr;
-    for (std::string const& str : buffer->buffer) {
-        vector_of_cstr.push_back(str.data());
-    }
-
-    return vector_of_cstr.data();
-}
-HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
-
-
-
-const char * rs2_get_aus_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error) BEGIN_API_CALL
-{
-    VALIDATE_NOT_NULL(buffer);
-    //VALIDATE_NOT_NULL(buffer[i]);
-    return buffer->buffer[i].c_str();
-}
-HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
-
-
 void rs2_delete_raw_data(const rs2_raw_data_buffer* buffer) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(buffer);
@@ -1434,6 +1397,28 @@ const rs2_aus_counters_names* rs2_aus_get_counters_names(rs2_error** error) BEGI
 
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
+
+int rs2_aus_get_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    return static_cast<int>(buffer->buffer.size());
+}
+HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
+
+void rs2_aus_delete_counters_names(const rs2_aus_counters_names* buffer) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    delete buffer;
+}
+NOEXCEPT_RETURN(, buffer)
+
+const char* rs2_aus_get_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(buffer);
+    //VALIDATE_NOT_NULL(buffer[i]);
+    return buffer->buffer[i].c_str();
+}
+HANDLE_EXCEPTIONS_AND_RETURN(0, buffer)
 
 // librealsense wrapper around a C function
 class on_log_callback : public rs2_log_callback

@@ -16,10 +16,10 @@ namespace librealsense
 
         void start()
         {
-            if (_running) 
-            {
-                //throw std::runtime_error("AUS - Trying to start a running timer");
-            }
+            //if (_running) 
+            //{
+            //    throw std::runtime_error("AUS - Trying to start a running timer");
+            //}
 
             _start = std::chrono::system_clock::to_time_t(
                 std::chrono::system_clock::now());

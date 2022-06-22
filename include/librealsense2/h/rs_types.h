@@ -260,7 +260,6 @@ typedef struct rs2_error rs2_error;
 typedef struct rs2_log_message rs2_log_message;
 typedef struct rs2_raw_data_buffer rs2_raw_data_buffer;
 typedef struct rs2_aus_counters_names rs2_aus_counters_names;
-typedef struct rs2_aus_value rs2_aus_value;
 typedef struct rs2_frame rs2_frame;
 typedef struct rs2_frame_queue rs2_frame_queue;
 typedef struct rs2_pipeline rs2_pipeline;

@@ -56,18 +56,17 @@ namespace rs2
 
     inline std::vector<std::string> aus_get_counters_names()
     {
-
         rs2_error* e = nullptr;
         auto buffer = rs2_aus_get_counters_names(&e);
-        std::shared_ptr<const rs2_aus_counters_names> list(buffer, rs2_delete_aus_counters_names);
+        std::shared_ptr<const rs2_aus_counters_names> list(buffer, rs2_aus_delete_counters_names);
         error::handle(e);
 
-        auto size = rs2_get_aus_counters_names_size(list.get(), &e);
+        auto size = rs2_aus_get_counters_names_size(list.get(), &e);
         error::handle(e);
 
         std::vector<std::string> results;
         for (size_t i = 0; i < size; ++i) {
-            const char* item_cstr = rs2_get_aus_counter_name_data(list.get(), i, &e);
+            const char* item_cstr = rs2_aus_get_counter_name_data(list.get(), i, &e);
             error::handle(e);
             results.push_back(item_cstr);
         }

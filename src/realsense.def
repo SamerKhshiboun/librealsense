@@ -162,10 +162,9 @@ EXPORTS
     rs2_aus_stop_timer
     rs2_aus_get_timer
     rs2_aus_get_counters_names
-    rs2_get_aus_counters_names_size
-    rs2_delete_aus_counters_names
-    rs2_get_aus_counters_names_data
-    rs2_get_aus_counter_name_data
+    rs2_aus_get_counters_names_size
+    rs2_aus_delete_counters_names
+    rs2_aus_get_counter_name_data
 
     rs2_get_log_message_line_number
     rs2_get_log_message_filename

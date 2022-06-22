@@ -62,12 +62,12 @@ test.finish()
 
 test.start("Test timers values")
 try:
-    sleep(3)
+    sleep(2)
     my_list = expected_counters_dict.keys()
     for timer_name in my_list:
         if "TIMER" in timer_name:
             aus_val = rs.aus_get_timer(timer_name)
-            test.check(aus_val >= 3)
+            test.check(aus_val >= 2)
 except:
     test.unexpected_exception()
 test.finish()

@@ -1348,17 +1348,17 @@ void rs2_enable_rolling_log_file( unsigned max_size, rs2_error ** error ) BEGIN_
 }
 HANDLE_EXCEPTIONS_AND_RETURN(, max_size)
 
-void rs2_aus_set(const char* counter, int value, rs2_error** error) BEGIN_API_CALL
+void rs2_aus_set_counter(const char* counter, int value, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(counter);
-    librealsense::aus_set(counter, value);
+    librealsense::aus_set_counter(counter, value);
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
-void rs2_aus_increase(const char * counter, rs2_error** error) BEGIN_API_CALL
+void rs2_aus_increase_counter(const char * counter, rs2_error** error) BEGIN_API_CALL
 {
     VALIDATE_NOT_NULL(counter);
-    librealsense::aus_increase(counter);
+    librealsense::aus_increase_counter(counter);
 }
 NOARGS_HANDLE_EXCEPTIONS_AND_RETURN_VOID()
 
@@ -1393,6 +1393,14 @@ NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
 const rs2_aus_counters_names* rs2_aus_get_counters_names(rs2_error** error) BEGIN_API_CALL
 {
     auto ret = librealsense::aus_get_counters_names();
+    return new rs2_aus_counters_names{ std::move(ret) };
+
+}
+NOARGS_HANDLE_EXCEPTIONS_AND_RETURN(0);
+
+const rs2_aus_counters_names* rs2_aus_get_timers_names(rs2_error** error) BEGIN_API_CALL
+{
+    auto ret = librealsense::aus_get_timers_names();
     return new rs2_aus_counters_names{ std::move(ret) };
 
 }

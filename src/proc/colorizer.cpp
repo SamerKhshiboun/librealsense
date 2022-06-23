@@ -141,7 +141,7 @@ namespace librealsense
         std::string timer_name = librealsense::aus_build_system_timer_name("COLORIZER", device_name);
         librealsense::aus_start_timer(timer_name);
         std::string colorizer_init_counter = librealsense::aus_build_system_counter_name("COLORIZER_FILTER_INIT", device_name);
-        librealsense::aus_increase(colorizer_init_counter);
+        librealsense::aus_increase_counter(colorizer_init_counter);
     }
 
     colorizer::colorizer(const char* name)
@@ -340,7 +340,7 @@ namespace librealsense
 
         std::string device_name = this->get_info(RS2_CAMERA_INFO_NAME);
         std::string colorized_frames_counter = librealsense::aus_build_system_counter_name("COLORIZED_FRAMES", device_name);
-        librealsense::aus_increase(colorized_frames_counter);
+        librealsense::aus_increase_counter(colorized_frames_counter);
 
         return ret;
     }

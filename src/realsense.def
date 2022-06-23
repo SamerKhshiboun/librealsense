@@ -155,8 +155,8 @@ EXPORTS
     rs2_reset_logger
     rs2_enable_rolling_log_file
 
-    rs2_aus_set
-    rs2_aus_increase
+    rs2_aus_set_counter
+    rs2_aus_increase_counter
     rs2_aus_get_counter
     rs2_aus_start_timer
     rs2_aus_stop_timer
@@ -165,6 +165,7 @@ EXPORTS
     rs2_aus_get_counters_names_size
     rs2_aus_delete_counters_names
     rs2_aus_get_counter_name_data
+    rs2_aus_get_timers_names
 
     rs2_get_log_message_line_number
     rs2_get_log_message_filename

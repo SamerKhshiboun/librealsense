@@ -22,7 +22,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_set(const char* counter, int value, rs2_error** error);
+    void rs2_aus_set_counter(const char* counter, int value, rs2_error** error);
 
     /**
     * increase counter by 1
@@ -30,7 +30,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_increase(const char* counter, rs2_error** error);
+    void rs2_aus_increase_counter(const char* counter, rs2_error** error);
 
     /**
     * get counter value
@@ -94,6 +94,13 @@ extern "C" {
     * \return     char* from buffer at index i
     */
     const char* rs2_aus_get_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error);
+
+    /**
+    * get all defined timers names
+    * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
+    * \return     struct that includes vector with timers names as strings
+    */
+    const rs2_aus_counters_names* rs2_aus_get_timers_names(rs2_error** error);
 
 #ifdef __cplusplus
 }

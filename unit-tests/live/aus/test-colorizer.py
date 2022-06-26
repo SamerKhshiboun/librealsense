@@ -31,14 +31,10 @@ try:
     counters_list = rs.aus_get_counters_names()
     expected_counters_dict = \
         {
-            'RS2_AUS_DEPTH_VISUALIZATION_COLORIZER_TIMER': -1,
-            'RS2_AUS_INTEL_REALSENSE_L515_UVC_STREAM_TIMER': -1,
             'RS2_AUS_DEPTH_VISUALIZATION_COLORIZER_FILTER_INIT_COUNTER': 1,
-            'RS2_AUS_INTEL_REALSENSE_L515_HID_STREAM_TIMER': -1,
             'RS2_AUS_CONNECTED_DEVICES_COUNTER': 1,
             'RS2_AUS_L500_CONNECTED_DEVICES_COUNTER': 1,
             'RS2_AUS_DEPTH_VISUALIZATION_COLORIZED_FRAMES_COUNTER': 10,
-            'RS2_AUS_INTEL_REALSENSE_L515_SYNTHETIC_STREAM_TIMER': -1,
         }
     test.check_equal_lists(expected_counters_dict.keys(), counters_list)
 except:
@@ -50,10 +46,26 @@ test.finish()
 test.start("Test counters values")
 try:
     for counter_name in expected_counters_dict.keys():
-        if "TIMER" not in counter_name:
-            aus_val = rs.aus_get_counter(counter_name)
-            expected_val = expected_counters_dict[counter_name]
-            test.check_equal(expected_val, aus_val)
+        aus_val = rs.aus_get_counter(counter_name)
+        expected_val = expected_counters_dict[counter_name]
+        test.check_equal(expected_val, aus_val)
+except:
+    test.unexpected_exception()
+test.finish()
+
+#############################################################################################
+
+test.start("Test timers names")
+try:
+    timers_list = rs.aus_get_timers_names()
+    expected_timers_dict = \
+        {
+            'RS2_AUS_DEPTH_VISUALIZATION_COLORIZER_TIMER': -1,
+            'RS2_AUS_INTEL_REALSENSE_L515_UVC_STREAM_TIMER': -1,
+            'RS2_AUS_INTEL_REALSENSE_L515_HID_STREAM_TIMER': -1,
+            'RS2_AUS_INTEL_REALSENSE_L515_SYNTHETIC_STREAM_TIMER': -1,
+        }
+    test.check_equal_lists(expected_timers_dict.keys(), timers_list)
 except:
     test.unexpected_exception()
 test.finish()
@@ -63,11 +75,10 @@ test.finish()
 test.start("Test timers values")
 try:
     sleep(2)
-    my_list = expected_counters_dict.keys()
+    my_list = expected_timers_dict.keys()
     for timer_name in my_list:
-        if "TIMER" in timer_name:
-            aus_val = rs.aus_get_timer(timer_name)
-            test.check(aus_val >= 2)
+        aus_val = rs.aus_get_timer(timer_name)
+        test.check(aus_val >= 2)
 except:
     test.unexpected_exception()
 test.finish()

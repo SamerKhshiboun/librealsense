@@ -11,7 +11,7 @@ from time import sleep
 
 test.start("Test set without parameter (default value 0)")
 try:
-    rs.aus_set("USER_COUNTER_1")
+    rs.aus_set_counter("USER_COUNTER_1")
     user_counter_1 = rs.aus_get_counter("USER_COUNTER_1")
     test.check_equal(user_counter_1, 0)
 except:
@@ -22,7 +22,7 @@ test.finish()
 
 test.start("Test set with parameter")
 try:
-    rs.aus_set("USER_COUNTER_2", 5)
+    rs.aus_set_counter("USER_COUNTER_2", 5)
     user_counter_2 = rs.aus_get_counter("USER_COUNTER_2")
     test.check_equal(user_counter_2, 5)
 except:
@@ -33,9 +33,9 @@ test.finish()
 
 test.start("Test increase an already defined parameter")
 try:
-    rs.aus_set("USER_COUNTER_3")
+    rs.aus_set_counter("USER_COUNTER_3")
     for n in range(10):
-        rs.aus_increase("USER_COUNTER_3")
+        rs.aus_increase_counter("USER_COUNTER_3")
     user_counter_3 = rs.aus_get_counter("USER_COUNTER_3")
     test.check_equal(user_counter_3, 10)
 except:
@@ -47,7 +47,7 @@ test.finish()
 test.start("Test increase a new parameter")
 try:
     for n in range(10):
-        rs.aus_increase("USER_COUNTER_4")
+        rs.aus_increase_counter("USER_COUNTER_4")
     user_counter_4 = rs.aus_get_counter("USER_COUNTER_4")
     test.check_equal(user_counter_4, 10)
 except:
@@ -58,7 +58,7 @@ test.finish()
 
 test.start("Test set of an already defined parameter (should throw exception)")
 try:
-    rs.aus_set("USER_COUNTER_4")
+    rs.aus_set_counter("USER_COUNTER_4")
 except:
     test.finish()
 else:

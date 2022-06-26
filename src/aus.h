@@ -67,7 +67,8 @@ namespace librealsense
 
         time_t get_current_time() 
         {
-            std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            return std::chrono::system_clock::to_time_t(
+                std::chrono::system_clock::now());
         }
 
     };
@@ -88,7 +89,10 @@ namespace librealsense
 
         void set_counter(std::string key, int value = 0)
         {
-            assert_exists_counter(key);
+            if (_counters_mp.find(key) != _counters_mp.end())
+            {
+                throw std::runtime_error("counter \"" + key + "\" already exists");
+            }
             _counters_mp[key] = value;
         }
 

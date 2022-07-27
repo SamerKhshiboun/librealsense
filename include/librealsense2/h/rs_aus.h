@@ -22,7 +22,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_set_counter(const char* counter, int value, rs2_error** error);
+    void rs2_aus_set(const char* counter, int value, rs2_error** error);
 
     /**
     * increase counter by 1
@@ -30,7 +30,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_increase_counter(const char* counter, rs2_error** error);
+    void rs2_aus_increment(const char* counter, rs2_error** error);
 
     /**
     * get counter value
@@ -38,7 +38,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     counter value
     */
-    int rs2_aus_get_counter(const char* counter, rs2_error** error);
+    long rs2_aus_get(const char* counter, rs2_error** error);
 
     /**
     * starts timer
@@ -46,7 +46,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_start_timer(const char* timer, rs2_error** error);
+    void rs2_aus_start(const char* timer, rs2_error** error);
 
     /**
     * stops timer
@@ -54,38 +54,31 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_stop_timer(const char* timer, rs2_error** error);
+    void rs2_aus_stop(const char* timer, rs2_error** error);
 
-    /**
-    * get timer value
-    * \param[in]  timer    timer to get value
-    * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
-    * \return     timer value
-    */
-    rs2_time_t rs2_aus_get_timer(const char* timer, rs2_error** error);
 
     /**
     * get all defined counters names
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     struct that includes vector with counters names as strings
     */
-    const rs2_aus_counters_names* rs2_aus_get_counters_names(rs2_error** error);
+    const rs2_strings_list* rs2_aus_get_counters_list(rs2_error** error);
 
     /**
     * get size of rs2_aus_counters_names buffer
-    * \param[in]  buffer   rs2_raw_data_buffer returned by rs2_aus_get_counters_names
+    * \param[in]  buffer   rs2_raw_data_buffer returned by rs2_aus_get_counters_list
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     size of rs2_aus_counters_names buffer
     */
-    int rs2_aus_get_counters_names_size(const rs2_aus_counters_names* buffer, rs2_error** error);
+    int rs2_aus_get_counters_list_size(const rs2_strings_list* buffer, rs2_error** error);
 
     /**
     * delete rs2_aus_counters_names buffer
-    * \param[in]  buffer   rs2_raw_data_buffer returned by rs2_aus_get_counters_names
+    * \param[in]  buffer   rs2_raw_data_buffer returned by rs2_aus_get_counters_list
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_delete_counters_names(const rs2_aus_counters_names* buffer);
+    void rs2_aus_delete_counters_list(const rs2_strings_list* buffer);
 
     /**
     * Retrieve char array from rs2_aus_counters_names buffer at index i
@@ -93,14 +86,8 @@ extern "C" {
     * \param[out] error   if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     char* from buffer at index i
     */
-    const char* rs2_aus_get_counter_name_data(const rs2_aus_counters_names* buffer, int i, rs2_error** error);
+    const char* rs2_aus_get_counter_data(const rs2_strings_list* buffer, int i, rs2_error** error);
 
-    /**
-    * get all defined timers names
-    * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
-    * \return     struct that includes vector with timers names as strings
-    */
-    const rs2_aus_counters_names* rs2_aus_get_timers_names(rs2_error** error);
 
 #ifdef __cplusplus
 }

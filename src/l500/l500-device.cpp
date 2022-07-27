@@ -57,7 +57,7 @@ namespace librealsense
         _temperatures()
     {
         std::string l500_devices_counter = librealsense::aus_build_system_counter_name("CONNECTED_DEVICES", "L500");
-        librealsense::aus_increase_counter(l500_devices_counter);
+        librealsense::aus_increment(l500_devices_counter);
 
         _depth_device_idx = add_sensor(create_depth_device(ctx, group.uvc_devices));
         _pid = group.uvc_devices.front().pid;

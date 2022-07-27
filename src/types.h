@@ -199,16 +199,14 @@ namespace librealsense
     //   AUS mechanism   //
     ///////////////////////
 
-    void aus_set_counter(std::string counter, int val = 0);
-    void aus_increase_counter(std::string counter);
-    int aus_get_counter(std::string counter);
-    void aus_start_timer(std::string counter);
-    void aus_stop_timer(std::string counter);
-    rs2_time_t aus_get_timer(std::string counter);
+    void aus_set(std::string counter, int value);
+    void aus_increment(std::string counter);
+    long aus_get(std::string counter);
+    void aus_start(std::string counter);
+    void aus_stop(std::string counter);
     std::string aus_build_system_timer_name(std::string suffix, std::string device_name = "");
     std::string aus_build_system_counter_name(std::string suffix, std::string device_name = "");
-    std::vector<std::string> aus_get_counters_names();
-    std::vector<std::string> aus_get_timers_names();
+    std::vector<std::string> aus_get_counters_list();
 
     // Enhancement for debug mode that incurs performance penalty with STL
     // std::clamp to be introduced with c++17

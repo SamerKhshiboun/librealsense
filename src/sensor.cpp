@@ -540,8 +540,15 @@ void log_callback_end( uint32_t fps,
         _is_streaming = true;
 
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
-        std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
-        librealsense::aus_start_timer(timer_name);
+        auto active_streams = get_active_streams();
+        for (auto profile : active_streams)
+        {
+            auto stream_type = rs2_stream_to_string(profile->get_stream_type());
+            std::string timer_name = librealsense::aus_build_system_timer_name(stream_type, device_name);
+            librealsense::aus_start(timer_name);
+        }
+        
+        
         
         _device->start_callbacks();
     }
@@ -555,8 +562,13 @@ void log_callback_end( uint32_t fps,
         _is_streaming = false;
 
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
-        std::string timer_name = librealsense::aus_build_system_timer_name("UVC_STREAM", device_name);
-        librealsense::aus_stop_timer(timer_name);
+        auto active_streams = get_active_streams();
+        for (auto profile : active_streams)
+        {
+            auto stream_type = rs2_stream_to_string(profile->get_stream_type());
+            std::string timer_name = librealsense::aus_build_system_timer_name(stream_type, device_name);
+            librealsense::aus_stop(timer_name);
+        }
 
         _device->stop_callbacks();
         raise_on_before_streaming_changes(false);
@@ -939,8 +951,14 @@ void log_callback_end( uint32_t fps,
         _is_streaming = true;
 
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
-        std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
-        librealsense::aus_start_timer(timer_name);
+        auto active_streams = get_active_streams();
+        for (auto profile : active_streams)
+        {
+            auto stream_type = rs2_stream_to_string(profile->get_stream_type());
+            std::string timer_name = librealsense::aus_build_system_timer_name(stream_type, device_name);
+            librealsense::aus_start(timer_name);
+        }
+
     }
 
     void hid_sensor::stop()
@@ -954,8 +972,13 @@ void log_callback_end( uint32_t fps,
         _is_streaming = false;
 
         std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
-        std::string timer_name = librealsense::aus_build_system_timer_name("HID_STREAM", device_name);
-        librealsense::aus_stop_timer(timer_name);
+        auto active_streams = get_active_streams();
+        for (auto profile : active_streams)
+        {
+            auto stream_type = rs2_stream_to_string(profile->get_stream_type());
+            std::string timer_name = librealsense::aus_build_system_timer_name(stream_type, device_name);
+            librealsense::aus_stop(timer_name);
+        }
 
         _source.flush();
         _source.reset();
@@ -1637,9 +1660,9 @@ void log_callback_end( uint32_t fps,
             }
         });
 
-        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+        /*std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
-        librealsense::aus_start_timer(timer_name);
+        librealsense::aus_start(timer_name);*/
 
         // Call the processing block on the frame
         _raw_sensor->start(process_cb);
@@ -1649,9 +1672,9 @@ void log_callback_end( uint32_t fps,
     {
         std::lock_guard<std::mutex> lock(_synthetic_configure_lock);
         
-        std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
+       /* std::string device_name = this->get_device().shared_from_this()->get_info(RS2_CAMERA_INFO_NAME);
         std::string timer_name = librealsense::aus_build_system_timer_name("SYNTHETIC_STREAM", device_name);
-        librealsense::aus_stop_timer(timer_name);
+        librealsense::aus_stop(timer_name);*/
 
         _raw_sensor->stop();
     }

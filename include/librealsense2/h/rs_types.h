@@ -221,6 +221,7 @@ typedef enum rs2_extension
     RS2_EXTENSION_MAX_USABLE_RANGE_SENSOR,
     RS2_EXTENSION_DEBUG_STREAM_SENSOR,
     RS2_EXTENSION_CALIBRATION_CHANGE_DEVICE,
+    RS2_EXTENSION_SAFETY_SENSOR,
     RS2_EXTENSION_COUNT
 } rs2_extension;
 const char* rs2_extension_type_to_string(rs2_extension type);
@@ -273,6 +274,7 @@ typedef struct rs2_log_callback rs2_log_callback;
 typedef struct rs2_syncer rs2_syncer;
 typedef struct rs2_device_serializer rs2_device_serializer;
 typedef struct rs2_source rs2_source;
+typedef struct rs2_safety_preset rs2_safety_preset;
 typedef struct rs2_processing_block rs2_processing_block;
 typedef struct rs2_frame_processor_callback rs2_frame_processor_callback;
 typedef struct rs2_playback_status_changed_callback rs2_playback_status_changed_callback;

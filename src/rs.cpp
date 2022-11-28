@@ -3951,3 +3951,28 @@ float rs2_calculate_target_z(rs2_device* device, rs2_frame_queue* queue1, rs2_fr
     }
 }
 HANDLE_EXCEPTIONS_AND_RETURN(-1.f, device, queue1, queue2, queue3, target_width, target_height)
+
+void rs2_get_safety_preset(const rs2_sensor * sensor,
+    int index,
+    rs2_safety_preset* sp,
+    rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(sensor);
+    VALIDATE_RANGE(index, 0, 63);
+    auto safety_sensor = VALIDATE_INTERFACE(sensor->sensor, librealsense::safety_sensor);
+    auto ret_data = safety_sensor->get_safety_preset(index);
+    sp = &ret_data;
+}
+HANDLE_EXCEPTIONS_AND_RETURN(, sensor, sp)
+
+void rs2_set_safety_preset(const rs2_sensor * sensor,
+    int index,
+    rs2_safety_preset* sp,
+    rs2_error** error) BEGIN_API_CALL
+{
+    VALIDATE_NOT_NULL(sensor);
+    VALIDATE_RANGE(index, 1, 63);
+    auto safety_sensor = VALIDATE_INTERFACE(sensor->sensor, librealsense::safety_sensor);
+    safety_sensor->set_safety_preset(index, *sp);
+}
+HANDLE_EXCEPTIONS_AND_RETURN(, sensor, sp)

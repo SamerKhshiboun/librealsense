@@ -4,6 +4,9 @@
 #pragma once
 
 #include "types.h"
+#include "backend.h"
+#include "context.h"
+#include <unordered_map>
 
 namespace librealsense
 {
@@ -14,6 +17,7 @@ namespace librealsense
         virtual long get() = 0;
         virtual void set(long value) = 0;
         virtual void increment() = 0;
+        virtual void decrement() = 0;
         virtual void start() = 0;
         virtual void stop() = 0;
     };
@@ -40,6 +44,11 @@ namespace librealsense
         }
 
         void increment()
+        {
+            return;
+        }
+
+        void decrement()
         {
             return;
         }
@@ -97,6 +106,11 @@ namespace librealsense
             _counter++;
         }
 
+        void decrement()
+        {
+            _counter--;
+        }
+
         void start() { return; }
 
         void stop() { return; }
@@ -105,6 +119,38 @@ namespace librealsense
     private:
         long _counter;
         long _total; 
+    };
+
+    class aus_devices_manager{
+    public:
+        aus_devices_manager( std::shared_ptr<context> ctx):_context( ctx ), _mp()
+        {
+            auto cb = new devices_changed_callback_internal( [this]( rs2_device_list * removed, rs2_device_list * added )
+                {
+                    std::lock_guard<std::mutex> lock( _device_changed_mtx );
+                    for ( auto & dev_info : added->list )
+                    {
+                        auto info_vec = dev_info.info->get_device_data().usb_devices;
+                        if ( _mp.find( info_vec.at(0 ).serial) == _mp.end() )
+                        {
+                            _mp.insert( std::make_pair( info_vec.at( 0 ).serial, info_vec.at( 0 ) ));
+                        }
+                     
+                } );
+            _callback_id = _context->register_internal_device_callback( { cb, []( rs2_devices_changed_callback * p ) { p->release(); } } );
+        }
+
+        ~aus_devices_manager()
+        {
+            _context->unregister_internal_device_callback( _callback_id );
+
+        }
+    private:
+        std::unordered_map<std::string,struct librealsense::platform::backend_device_group > _mp;
+        mutable std::mutex _device_changed_mtx;
+        uint64_t _callback_id;
+        std::shared_ptr<context> _context;
+
     };
 
   
@@ -119,8 +165,29 @@ namespace librealsense
         {
             _start_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             _librealsense_version = RS2_API_VERSION_STR;
+            _os_name = get_os_name();
+            _platform_name = PLATFORM;
+
         }
 
+        std::string get_os_name()
+        {
+            #ifdef _WIN32
+            return "Windows";
+            #else
+            #ifdef __APPLE__
+            return "Mac OS";
+            #else
+            #ifdef __linux__
+            return "Linux";
+            #else
+            return "Unknown";
+            #endif
+            #endif
+            #endif
+        }
+
+        
         void set(std::string key, long value)
         {
             if (_mp.find(key) != _mp.end())
@@ -144,6 +211,14 @@ namespace librealsense
             {
                // _mp[key] = std::make_unique<aus_counter>(new aus_counter(1));
                 _mp[key] = new aus_counter(1);
+            }
+        }
+
+        void decrement(std::string key)
+        {
+            if (_mp.find( key ) != _mp.end() && _mp[key] >0)
+            {
+                _mp[key]->decrement();
             }
         }
 
@@ -188,6 +263,28 @@ namespace librealsense
         long _start_time;
 
         std::string _librealsense_version;
+        std::string _os_name;
+        std::string _platform_name;
+
+        const char * PLATFORM =
+
+            #ifdef _WIN64
+            "Windows amd64";
+        #elif _WIN32
+            "Windows x86";
+        #elif __linux__
+            #ifdef __arm__
+            "Linux arm";
+        #else
+            "Linux amd64";
+        #endif
+        #elif __APPLE__
+            "Mac OS";
+        #elif __ANDROID__
+            "Linux arm";
+        #else
+            "";
+        #endif
 
         void assert_key_exists(std::string key)
         {
@@ -212,6 +309,11 @@ namespace librealsense
         void increment(std::string key)
         {
             throw std::runtime_error("increase is not supported without BUILD_AUS");
+        }
+
+        void decrement( std::string key )
+        {
+            throw std::runtime_error( "decrease is not supported without BUILD_AUS" );
         }
 
         long get(std::string key)

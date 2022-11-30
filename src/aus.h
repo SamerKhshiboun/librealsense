@@ -6,6 +6,7 @@
 #include "types.h"
 #include "backend.h"
 #include "context.h"
+#include <mutex>
 #include <unordered_map>
 
 namespace librealsense
@@ -123,30 +124,10 @@ namespace librealsense
 
     class aus_devices_manager{
     public:
-        aus_devices_manager( std::shared_ptr<context> ctx):_context( ctx ), _mp()
-        {
-            auto cb = new devices_changed_callback_internal( [this]( rs2_device_list * removed, rs2_device_list * added )
-                {
-                    std::lock_guard<std::mutex> lock( _device_changed_mtx );
-                    for ( auto & dev_info : added->list )
-                    {
-                        auto info_vec = dev_info.info->get_device_data().usb_devices;
-                        if ( _mp.find( info_vec.at(0 ).serial) == _mp.end() )
-                        {
-                            _mp.insert( std::make_pair( info_vec.at( 0 ).serial, info_vec.at( 0 ) ));
-                        }
-                     
-                } );
-            _callback_id = _context->register_internal_device_callback( { cb, []( rs2_devices_changed_callback * p ) { p->release(); } } );
-        }
-
-        ~aus_devices_manager()
-        {
-            _context->unregister_internal_device_callback( _callback_id );
-
-        }
+        aus_devices_manager( std::shared_ptr<context> ctx );
+        ~aus_devices_manager();
     private:
-        std::unordered_map<std::string,struct librealsense::platform::backend_device_group > _mp;
+        std::unordered_map<std::string,struct librealsense::platform::usb_device_info > _mp;
         mutable std::mutex _device_changed_mtx;
         uint64_t _callback_id;
         std::shared_ptr<context> _context;

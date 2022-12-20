@@ -4,6 +4,7 @@
 #pragma once
 
 #include "types.h"
+#include <rsutils/os/os.h>
 
 namespace librealsense
 {
@@ -128,29 +129,10 @@ namespace librealsense
         {
             _start_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             _librealsense_version = RS2_API_VERSION_STR;
-            _os_name = get_os_name();
+            _os_name = rsutils::get_os_name();
             _platform_name = PLATFORM;
-
         }
 
-        std::string get_os_name()
-        {
-            #ifdef _WIN32
-            return "Windows";
-            #else
-            #ifdef __APPLE__
-            return "Mac OS";
-            #else
-            #ifdef __linux__
-            return "Linux";
-            #else
-            return "Unknown";
-            #endif
-            #endif
-            #endif
-        }
-
-        
         void set(std::string key, long value)
         {
             if (_mp.find(key) != _mp.end())
@@ -241,7 +223,7 @@ namespace librealsense
             {
                 insert_device_to_device_manager( serial, name );
             }
-        } 
+        }
 
     private:
         std::unordered_map<std::string, aus_value*> _mp;

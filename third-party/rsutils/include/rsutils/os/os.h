@@ -7,4 +7,5 @@
 namespace rsutils
 {
     std::string get_os_name();
+    std::string get_platform_name();
 }

@@ -20,5 +20,27 @@ namespace rsutils
 #endif
 #endif
 #endif
-    }  
+    } 
+
+std::string get_platform_name()
+    {
+#ifdef _WIN64
+    return "Windows amd64";
+#elif _WIN32
+    return "Windows x86";
+#elif __linux__
+    #ifdef __arm__
+    return "Linux arm";
+#else
+    return "Linux amd64";
+#endif
+#elif __APPLE__
+    return "Mac OS";
+#elif __ANDROID__
+    return "Linux arm";
+#else
+    return "";
+#endif
+
+    }
 }

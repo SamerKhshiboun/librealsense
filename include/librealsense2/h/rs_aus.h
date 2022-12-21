@@ -11,9 +11,9 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+    #endif
 
-#include "rs_types.h"
+    #include "rs_types.h"
 
     /**
     * set counter to be value. if no value provided, counter will be asigned to 0
@@ -22,7 +22,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_set(const char* counter, int value, rs2_error** error);
+    void rs2_aus_set( const char * counter, int value, rs2_error ** error );
 
     /**
     * increase counter by 1
@@ -30,7 +30,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_increment(const char* counter, rs2_error** error);
+    void rs2_aus_increment( const char * counter, rs2_error ** error );
 
     /**
     * decrease counter by 1
@@ -46,7 +46,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     counter value
     */
-    long rs2_aus_get(const char* counter, rs2_error** error);
+    long rs2_aus_get( const char * counter, rs2_error ** error );
 
     /**
     * starts timer
@@ -54,7 +54,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_start(const char* timer, rs2_error** error);
+    void rs2_aus_start( const char * timer, rs2_error ** error );
 
     /**
     * stops timer
@@ -62,7 +62,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_stop(const char* timer, rs2_error** error);
+    void rs2_aus_stop( const char * timer, rs2_error ** error );
 
 
     /**
@@ -70,7 +70,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     struct that includes vector with counters names as strings
     */
-    const rs2_strings_list* rs2_aus_get_counters_list(rs2_error** error);
+    const rs2_strings_list * rs2_aus_get_counters_list( rs2_error ** error );
 
     /**
     * get size of rs2_aus_counters_names buffer
@@ -78,7 +78,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     size of rs2_aus_counters_names buffer
     */
-    int rs2_aus_get_counters_list_size(const rs2_strings_list* buffer, rs2_error** error);
+    int rs2_aus_get_counters_list_size( const rs2_strings_list * buffer, rs2_error ** error );
 
     /**
     * delete rs2_aus_counters_names buffer
@@ -86,7 +86,7 @@ extern "C" {
     * \param[out] error    if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return
     */
-    void rs2_aus_delete_counters_list(const rs2_strings_list* buffer);
+    void rs2_aus_delete_counters_list( const rs2_strings_list * buffer );
 
     /**
     * Retrieve char array from rs2_aus_counters_names buffer at index i
@@ -94,8 +94,9 @@ extern "C" {
     * \param[out] error   if non-null, receives any error that occurs during this call, otherwise, errors are ignored
     * \return     char* from buffer at index i
     */
-    const char* rs2_aus_get_counter_data(const rs2_strings_list* buffer, int i, rs2_error** error);
+    const char * rs2_aus_get_counter_data( const rs2_strings_list * buffer, int i, rs2_error ** error );
 
+    const rs2_raw_data_buffer * rs2_aus_receive_json_data(rs2_error ** error);
 
 #ifdef __cplusplus
 }

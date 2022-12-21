@@ -5,6 +5,8 @@
 
 #include "types.h"
 #include <rsutils/os/os.h>
+#include <third-party/json.hpp>
+using nlohmann::json;
 
 namespace librealsense
 {
@@ -225,6 +227,20 @@ namespace librealsense
             }
         }
 
+        std::vector<std::uint8_t>  get_data()
+        {
+            json j;
+            j["librealsense_version"] = _start_time;
+            j["os_name"] = _librealsense_version;
+            j["platform_name"] = _os_name;
+
+            for ( const auto & pair : _mp )
+            {
+                j[pair.first] = std::to_string( pair.second->get() );
+            }
+            return json::to_ubjson( j );
+        }
+
     private:
         std::unordered_map<std::string, aus_value*> _mp;
         std::unordered_map<std::string, std::string > _mp_devices_manager;
@@ -234,6 +250,8 @@ namespace librealsense
         std::string _librealsense_version;
         std::string _os_name;
         std::string _platform_name;
+
+        //json jsn;
 
         void assert_key_exists(std::string key)
         {

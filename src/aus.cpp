@@ -80,6 +80,11 @@ void librealsense::aus_on_device_changed( std::string serial, std::string name )
     aus_data_obj.on_device_changed( serial,name);
 }
 
+std::vector<uint8_t> librealsense::aus_get_data()
+{
+    return aus_data_obj.get_data();
+}
+
 
 #else // BUILD_AUS
 

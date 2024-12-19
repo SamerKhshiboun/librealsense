@@ -4,13 +4,13 @@
 #pragma once
 
 #include <realdds/dds-defines.h>
-#include <realdds/topics/ros2/ros2getcontrolvalue-response.h>
+#include <realdds/services/ros2/ros2getcontrolvalue-response.h>
 
 #include <memory>
 
 namespace realdds
 {
-    namespace topics
+    namespace services
     {
         class GetControlValueResponsePubSubType;
     } // namespace msg
@@ -23,13 +23,13 @@ namespace realdds
     class dds_topic;
     class dds_topic_reader;
 
-    namespace topics
+    namespace services
     {
 
         class GetControlValueResponseMsg
         {
         public:
-            using type = realdds::topics::GetControlValueResponsePubSubType;
+            using type = realdds::services::GetControlValueResponsePubSubType;
 
             GetControlValueResponseMsg() = default;
             ~GetControlValueResponseMsg() = default;
@@ -37,12 +37,12 @@ namespace realdds
             long const get_result() const { return _data.get_result(); }
             void set_result(uint64_t new_result) { _data.set_result(new_result); }
 
-            static std::shared_ptr<dds_topic> create_topic(std::shared_ptr<dds_participant> const &participant,
+            static std::shared_ptr<dds_topic> create_service(std::shared_ptr<dds_participant> const &participant,
                                                            char const *topic_name);
 
 
         private:
-            realdds::topics::GetControlValueResponse _data;
+            realdds::services::GetControlValueResponse _data;
         };
 
     } // namespace topics

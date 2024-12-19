@@ -36,7 +36,7 @@ eProsima_user_DllExport void registerHeaderTypes();
 
 
 namespace realdds {
-namespace topics {
+namespace services {
 
 eProsima_user_DllExport void registerGetControlValueRequestTypes();
 

@@ -4,7 +4,7 @@
 #include "ros2getcontrolvalue-requestTypeObject.h"
 
 namespace realdds {
-namespace topics {
+namespace services {
 
 void registerGetControlValueRequestTypes()
 {

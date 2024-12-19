@@ -47,7 +47,7 @@ namespace eprosima
 
 namespace realdds
 {
-    namespace topics
+    namespace services
     {
 
         class GetControlValueRequest
@@ -69,7 +69,7 @@ namespace realdds
              * @return Serialized size.
              */
             eProsima_user_DllExport static size_t getCdrSerializedSize(
-                const realdds::topics::GetControlValueRequest &data,
+                const realdds::services::GetControlValueRequest &data,
                 size_t current_alignment = 0);
 
             /*!

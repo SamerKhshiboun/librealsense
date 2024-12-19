@@ -2,12 +2,12 @@
 // Copyright(c) 2023-4 Intel Corporation. All Rights Reserved.
 
 
-#ifndef _GET_CONTROL_VALUE_REQUEST_PUBSUBTYPES_H_
-#define _GET_CONTROL_VALUE_REQUEST_PUBSUBTYPES_H_
+#ifndef _GET_CONTROL_VALUE_RESPONSE_PUBSUBTYPES_H_
+#define _GET_CONTROL_VALUE_RESPONSE_PUBSUBTYPES_H_
 
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
-#include "ros2getcontrolvalue-request.h"
+#include "ros2getcontrolvalue-response.h"
 
 #if !defined(GEN_API_VER) || (GEN_API_VER != 1)
 #error Generated Header is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
@@ -15,16 +15,16 @@
 
 namespace realdds
 {
-    namespace topics
+    namespace services
     {
 
-        class GetControlValueRequestPubSubType : public eprosima::fastdds::dds::TopicDataType
+        class GetControlValueResponsePubSubType : public eprosima::fastdds::dds::TopicDataType
         {
         public:
-            typedef GetControlValueRequest type;
+            typedef GetControlValueResponse type;
 
-            eProsima_user_DllExport GetControlValueRequestPubSubType();
-            eProsima_user_DllExport virtual ~GetControlValueRequestPubSubType() override;
+            eProsima_user_DllExport GetControlValueResponsePubSubType();
+            eProsima_user_DllExport virtual ~GetControlValueResponsePubSubType() override;
 
             eProsima_user_DllExport bool serialize(void *data, eprosima::fastrtps::rtps::SerializedPayload_t *payload) override;
             eProsima_user_DllExport bool deserialize(eprosima::fastrtps::rtps::SerializedPayload_t *payload, void *data) override;

@@ -4,19 +4,19 @@
 #include <fastcdr/FastBuffer.h>
 #include <fastcdr/Cdr.h>
 
-#include "realdds/topics/ros2/ros2getcontrolvalue-requestPubSubTypes.h"
+#include "realdds/services/ros2/ros2getcontrolvalue-requestPubSubTypes.h"
 
 using SerializedPayload_t = eprosima::fastrtps::rtps::SerializedPayload_t;
 using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
 
 
 namespace realdds {
-namespace topics {
+namespace services {
 
 GetControlValueRequestPubSubType::GetControlValueRequestPubSubType()
 {
     //SAMER
-    setName("std_srvs::srv::dds_::Empty2_Request_");
+    setName("rcl_interfaces::srv::dds_::GetParameters_Request_");
     m_typeSize = 4 + 8; // Encapsulation + long field size
     m_isGetKeyDefined = false;
     m_keyBuffer = nullptr;

@@ -123,6 +123,10 @@ private:
     std::shared_ptr< dds_topic_reader > _control_reader;
     std::shared_ptr< dds_topic_writer > _metadata_writer;
     std::shared_ptr< dds_device_broadcaster > _broadcaster;
+
+    std::shared_ptr< dds_topic_reader > _get_control_value_reader;
+    std::shared_ptr< dds_topic_writer > _get_control_value_writer;
+
     dispatcher _control_dispatcher;
 
     set_option_callback _set_option_callback;

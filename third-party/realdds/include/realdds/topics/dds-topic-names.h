@@ -24,6 +24,8 @@ constexpr char const * NOTIFICATION_TOPIC_NAME = "/notification";
 constexpr char const * CONTROL_TOPIC_NAME = "/control";
 constexpr char const * METADATA_TOPIC_NAME = "/metadata";
 constexpr char const * DFU_TOPIC_NAME = "/dfu";
+constexpr char const * GET_CONTROL_VALUE_REQUEST_TOPIC = "rq/get_control_valueRequest";
+constexpr char const * GET_CONTROL_VALUE_RESPONSE_TOPIC = "rr/get_control_valueReply";
 
 
 namespace notification {

@@ -20,6 +20,9 @@
 #include <realdds/dds-option.h>
 #include <realdds/dds-guid.h>
 #include <realdds/dds-sample.h>
+#include <realdds/topics/image-msg.h>
+#include <realdds/topics/getcontrolvalue-request-msg.h>
+#include <realdds/topics/getcontrolvalue-response-msg.h>
 
 #include <rsutils/string/from.h>
 #include <rsutils/string/shorten-json-string.h>
@@ -237,6 +240,23 @@ void dds_device_server::init( std::vector< std::shared_ptr< dds_stream_server > 
             dds_topic_reader::qos rqos( RELIABLE_RELIABILITY_QOS );
             rqos.override_from_json( _subscriber->get_participant()->settings().nested( "device", "control" ) );
             _control_reader->run( rqos );
+        }
+
+        if (auto topic = topics::GetControlValueRequestMsg::create_topic(_subscriber->get_participant(), topics::GET_CONTROL_VALUE_REQUEST_TOPIC))
+        {
+            _get_control_value_reader = std::make_shared<realdds::dds_topic_reader>(topic, _subscriber);
+            _get_control_value_reader->on_data_available([&]()
+                                                         { std::cout << " Samer reader" << std::endl; });
+            realdds::dds_topic_reader::qos rqos(eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS);
+            _get_control_value_reader->run(rqos);
+        }
+
+        if (auto topic = topics::GetControlValueResponseMsg::create_topic(_publisher->get_participant(), topics::GET_CONTROL_VALUE_RESPONSE_TOPIC))
+        {
+            _get_control_value_writer = std::make_shared<realdds::dds_topic_writer>(topic, _publisher);
+            realdds::dds_topic_writer::qos wqos(eprosima::fastdds::dds::RELIABLE_RELIABILITY_QOS);
+            wqos.history().depth = 10; // default is 1
+            _get_control_value_writer->run(wqos);
         }
     }
     catch( std::exception const & )
